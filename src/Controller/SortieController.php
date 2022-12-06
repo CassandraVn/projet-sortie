@@ -85,10 +85,6 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-//        return $this->renderForm('sortie/new.html.twig', [
-//            'sortie' => $sortie,
-//            'form' => $SortForm,
-//        ]);
         return $this->render('sortie/new.html.twig',["sortForm"=>$sortForm->createView()]);
 
     }

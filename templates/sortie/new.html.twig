@@ -7,14 +7,25 @@
 
     <div class="row mt-5">
         <div class="col-6 offset-3">
-            {{form_start(sortForm)}}
-            {{ form_widget(sortForm) }}
+                        {{form_start(sortForm)}}
+                        {{ form_widget(sortForm) }}
+{#                            {{ form_row(sortForm.nom) }}#}
+{#                            {{ form_row(sortForm.dateHeureDebut) }}#}
+{#                            {{ form_row(sortForm.duree) }}#}
+{#                            {{ form_row(sortForm.dateLimiteInscription) }}#}
+{#                            {{ form_row(sortForm.nbInscriptionMax) }}#}
+{#                            {{ form_row(sortForm.infosSortie) }}#}
+{#                            {{ form_row(sortForm.lieu) }}#}
+{#            <button class="btn btn-primary" type=""   href=""> </button>#}
+
+{#            {{ form_row(sortForm.campus) }}#}
+
             <button class="btn btn-primary" type="submit">Ajouter</button>
-            {{form_end(sortForm)}}
-        </div>
+                        {{form_end(sortForm)}}
+                    </div>
+
     </div>
 
-{#    {{ include('sortie/_form.html.twig') }}#}
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 {% endblock %}
