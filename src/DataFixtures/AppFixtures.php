@@ -96,11 +96,12 @@ class AppFixtures extends Fixture
     }
 
     public function addLieu(VilleRepository $repoVille) {
+        $lieux = $this->repoVille->findAll();
         for ($i = 0; $i < 3; $i++) {
             $lieu = new Lieu();
             $lieu->setNom($this->generator->colorName);
             $lieu->setRue($this->generator->address);
-            $lieu->setVille($repoVille->find(1));
+            $lieu->setVille($this->generator->randomElement($lieux));
             $lieu->setLatitude($this->generator->randomFloat());
             $this->manager->persist($lieu);
         }
@@ -108,6 +109,9 @@ class AppFixtures extends Fixture
     }
 
     public function addUser(CampusRepository $campusRepo) {
+
+        $campus = $this->repoCampus->findAll();
+
         for ($i = 0; $i <3; $i++) {
             $user = new Utilisateur();
             $user->setMail($this->generator->companyEmail);
@@ -116,7 +120,7 @@ class AppFixtures extends Fixture
             $user->setNom($this->generator->lastName);
             $user->setPseudo($this->generator->userName);
             $user->setRoles(["visiteur"]);
-            $user->setCampus($campusRepo->find(1));
+            $user->setCampus($this->generator->randomElement($campus));
             $user->setTelephone($this->generator->phoneNumber);
             $user->setActif(true);
             $this->manager->persist($user);
@@ -125,17 +129,21 @@ class AppFixtures extends Fixture
     }
 
     public function addSortie(CampusRepository $campusRepo, LieuRepository $lieuRepo, EtatRepository $etatRepo, UtilisateurRepository $userRepo) {
+        $campus =  $this->repoCampus->findAll();
+        $lieu = $this->repoLieu->findAll();
+        $etat = $this->repoEtat->findAll();
+        $user = $this->repoUtilisateur->findAll();
         for ($i = 0; $i < 10; $i++) {
             $sortie = new Sortie();
             $sortie->setNom($this->generator->domainName);
-            $sortie->setCampus($campusRepo->find(1));
-            $sortie->setLieu($lieuRepo->find(1));
+            $sortie->setCampus($this->generator->randomElement($campus));
+            $sortie->setLieu($this->generator->randomElement($lieu));
             $sortie->setDateHeureDebut($this->generator->dateTimeThisMonth);
             $sortie->setDateLimiteInscription($this->generator->dateTimeThisYear);
             $sortie->setNbInscriptionMax(10);
-            $sortie->setEtat($etatRepo->find(2));
+            $sortie->setEtat($this->generator->randomElement($etat));
             $sortie->setDuree($this->generator->randomDigit);
-            $sortie->setOrganisateur($userRepo->find(1));
+            $sortie->setOrganisateur($this->generator->randomElement($user));
             $this->manager->persist($sortie);
         }
         $this->manager->flush();
