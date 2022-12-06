@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,22 +70,27 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SortieRepository $sortieRepository): Response
+    public function new(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepo): Response
     {
+        $etat = $etatRepo-> findOneBy(['libelle'=> 'Créée']);
         $sortie = new Sortie();
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
+        $sortie->setEtat($etat);
+        $sortie->setOrganisateur($this->getUser());
+        $sortForm = $this->createForm(SortieType::class, $sortie);
+        $sortForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
             $sortieRepository->save($sortie, true);
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sortie/new.html.twig', [
-            'sortie' => $sortie,
-            'form' => $form,
-        ]);
+//        return $this->renderForm('sortie/new.html.twig', [
+//            'sortie' => $sortie,
+//            'form' => $SortForm,
+//        ]);
+        return $this->render('sortie/new.html.twig',["sortForm"=>$sortForm->createView()]);
+
     }
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
