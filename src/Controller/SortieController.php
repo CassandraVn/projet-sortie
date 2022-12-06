@@ -19,6 +19,7 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
+
         if( !empty($_POST) )
         {
             $params = array();
@@ -129,9 +130,19 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/inscriptionSortie/{id}', name: 'app_inscription_sortie', methods: ['POST'])]
-    public function inscritionSortie()
+    #[Route('/inscritionDesistementSortie/{id}', name: 'app_inscription_desistement_sortie', methods: ['GET'])]
+    public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, Sortie $sortie)
     {
+        if ($sortie->getParticipant()->contains($this->getUser())) {
+            $sortie->removeParticipant($this->getUser());
+            $sortieRepository->save($sortie, true);
+        }
+        elseif( $sortie->getNbInscriptionMax() != count($sortie->getParticipant()) )
+        {
+            $sortie->addParticipant($this->getUser());
+            $sortieRepository->save($sortie, true);
+        }
 
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 }

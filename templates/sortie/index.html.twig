@@ -81,6 +81,13 @@
                 <td>
                     <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                    {% if app.user %}
+                        {% if app.user in sortie.Participant %}
+                            <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}">Se désister</a>
+                        {% else %}
+                            <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}">S'inscrire</a>
+                        {% endif %}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
