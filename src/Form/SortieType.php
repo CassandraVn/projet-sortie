@@ -18,7 +18,6 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionMax')
             ->add('infosSortie')
-            ->add('motifAnnulation')
             ->add('etat')
             ->add('lieu')
             ->add('campus')
