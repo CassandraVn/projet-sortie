@@ -17,6 +17,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class AppFixtures extends Fixture
@@ -28,14 +29,16 @@ class AppFixtures extends Fixture
     private UtilisateurRepository $repoUtilisateur;
     private EtatRepository $repoEtat;
     private LieuRepository $repoLieu;
+    private UserPasswordHasherInterface $hasher;
 
-    public function __construct(VilleRepository $repoVille, CampusRepository $repoCampus, UtilisateurRepository $repoUtilisateur, EtatRepository $repoEtat, LieuRepository $repoLieu) {
+    public function __construct(UserPasswordHasherInterface $hasher, VilleRepository $repoVille, CampusRepository $repoCampus, UtilisateurRepository $repoUtilisateur, EtatRepository $repoEtat, LieuRepository $repoLieu) {
         $this->generator = Factory::create('fr_FR');
         $this->repoVille = $repoVille;
         $this->repoCampus = $repoCampus;
         $this->repoUtilisateur = $repoUtilisateur;
         $this->repoEtat =  $repoEtat;
         $this->repoLieu =  $repoLieu;
+        $this->hasher = $hasher;
     }
 
     public function load(ObjectManager $manager): void
@@ -115,7 +118,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i <3; $i++) {
             $user = new Utilisateur();
             $user->setMail($this->generator->companyEmail);
-            $user->setPassword($this->generator->password);
+            $password = $this->hasher->hashPassword($user, '1234');
+            $user->setPassword($password);
             $user->setPrenom($this->generator->firstName);
             $user->setNom($this->generator->lastName);
             $user->setPseudo($this->generator->userName);
