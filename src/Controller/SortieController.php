@@ -17,13 +17,52 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
-        if( isset($_POST) )
+        if( !empty($_POST) )
         {
-            var_dump($_POST);
+            $params = array();
+            if( $_POST["campus"] != '')
+            {
+                $params['campus'] = $_POST["campus"];
+            }
+            if(  $_POST["nomSortie"] != '' )
+            {
+                $params['nomSortie'] = $_POST["nomSortie"];
+            }
+            if( $_POST["dateDepuis"] != '' )
+            {
+                $params['dateDepuis'] = $_POST["dateDepuis"];
+            }
+            if( $_POST["dateUntil"] != '' )
+            {
+                $params['dateUntil'] = $_POST["dateUntil"];
+            }
+
+            if( isset($_POST["orga"]) and $_POST["orga"] == 'on' )
+            {
+                $params['orga'] = $_POST["orga"];
+            }
+            if( isset($_POST["inscrit"]) and $_POST["inscrit"] == 'on' )
+            {
+                $params['inscrit'] = $_POST["inscrit"];
+            }
+            if( isset($_POST["pasInscrit"]) and $_POST["pasInscrit"] == 'on' )
+            {
+                $params['pasInscrit'] = $_POST["pasInscrit"];
+            }
+            if( isset($_POST["passees"]) and $_POST["passees"] == 'on' )
+            {
+                $params['passees'] = $_POST["passees"];
+            }
+
+            $sorties = $sortieRepository->findByFiltre($params);
+        }
+        else
+        {
+            $sorties = $sortieRepository->findAll();
         }
 
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
+            'sorties' =>  $sorties,
             'lesCampus' => $campusRepository->findAll()
         ]);
     }
@@ -81,5 +120,11 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/inscriptionSortie/{id}', name: 'app_inscription_sortie', methods: ['POST'])]
+    public function inscritionSortie()
+    {
+
     }
 }

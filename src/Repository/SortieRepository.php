@@ -39,6 +39,59 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByFiltre($params)
+    {
+        $query =  $this->createQueryBuilder('s');
+
+        if( isset($params["campus"]) )
+        {
+            $query = $query->where("s.campus = :campus");
+        }
+        if( isset($params["nomSortie"]) )
+        {
+            $query = $query->where("s.campus = :campus");
+        }
+
+        if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
+        {
+            $query = $query->where('s.dateHeureDebut BETWEEN :dateDepuis AND :dateUntil');
+        }
+
+        if( isset($params["orga"]) )
+        {
+
+        }
+        if( isset($params["inscrit"]) )
+        {
+
+        }
+        if( isset($params["pasInscrit"]) )
+        {
+
+        }
+        if( isset($params["passees"]) )
+        {
+
+        }
+
+
+        if( isset($params["campus"]) )
+        {
+            $query = $query->setParameter('campus', $params["campus"]);
+        }
+        if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
+        {
+            $query = $query->setParameters(
+                [
+                    'dateDepuis'  => $params["dateDepuis"],
+                    'dateUntil'   => $params["dateUntil"]
+                ]
+            );
+        }
+        return $query->getQuery()
+                       ->getResult();
+    }
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
