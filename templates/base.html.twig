@@ -16,7 +16,24 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+    <nav class="navbar navbar-dark bg-dark">
+        <a href="">Logo :)</a>
+        {% if is_granted('ROLE_USER') %}
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_utilisateur_profil', {'id': app.user.id}) }}">Mon profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
     <body>
         {% block body %}{% endblock %}
     </body>
+
 </html>
