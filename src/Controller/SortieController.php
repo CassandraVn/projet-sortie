@@ -22,14 +22,14 @@ class SortieController extends AbstractController
 
         if( !empty($_POST) )
         {
-            $params = array();
+            $params = array("user"=>$this->getUser()->getId());
             if( $_POST["campus"] != '')
             {
                 $params['campus'] = $_POST["campus"];
             }
             if(  $_POST["nomSortie"] != '' )
             {
-                $params['nomSortie'] = $_POST["nomSortie"];
+                $params['nomSortie'] = "%".$_POST["nomSortie"]."%";
             }
             if( $_POST["dateDepuis"] != '' )
             {
