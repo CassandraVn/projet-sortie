@@ -3,9 +3,18 @@
 {% block title %}New Sortie{% endblock %}
 
 {% block body %}
-    <h1>Create new Sortie</h1>
+    <h1>Creer une Sortie</h1>
 
-    {{ include('sortie/_form.html.twig') }}
+    <div class="row mt-5">
+        <div class="col-6 offset-3">
+            {{form_start(sortForm)}}
+            {{ form_widget(sortForm) }}
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+            {{form_end(sortForm)}}
+        </div>
+    </div>
+
+{#    {{ include('sortie/_form.html.twig') }}#}
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 {% endblock %}
