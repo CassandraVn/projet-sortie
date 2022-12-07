@@ -39,9 +39,11 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByFiltre($params)
+    public function findByFiltre($params=false)
     {
-        $query =  $this->createQueryBuilder('s');
+        $query =  $this->createQueryBuilder('s')
+                        ->join("s.etat", "e")
+                        ->where("e.libelle != 'Annulée'");
 
         if( isset($params["campus"]) )
         {
@@ -71,7 +73,6 @@ class SortieRepository extends ServiceEntityRepository
         }
         if( isset($params["passees"]) )
         {
-            $query = $query->join("s.etat", "e");
             $query = $query->andWhere("e.libelle = 'Passée'");
         }
 

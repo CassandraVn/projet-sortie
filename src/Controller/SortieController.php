@@ -62,7 +62,7 @@ class SortieController extends AbstractController
         }
         else
         {
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->findByFiltre();
         }
 
         return $this->render('sortie/index.html.twig', [
