@@ -24,6 +24,7 @@ class SortieController extends AbstractController
         $params = array("user"=>$this->getUser()->getId());
         if( !empty($_POST) )
         {
+            /*
             if( $_POST["campus"] != '')
             {
                 $params['campus'] = $_POST["campus"];
@@ -57,12 +58,14 @@ class SortieController extends AbstractController
             {
                 $params['passees'] = $_POST["passees"];
             }
+            */
 
+            $params = array_merge($params, $this->generateArray($_POST));
             $sorties = $sortieRepository->findByFiltre($params);
         }
         else
         {
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->findByFiltre();
         }
 
         return $this->render('sortie/index.html.twig', [
@@ -143,6 +146,15 @@ class SortieController extends AbstractController
             'sortForm' => $sortForm,0
         ]);
 
+//        $sortForm = $this->createForm(SortieType::class,$sortie);
+//        $sortForm->handleRequest($request);
+//
+//        if($sortForm->isSubmitted() && $sortForm->isValid()){
+//            $sortieRepository->update();
+//            return $this->redirectToRoute("app_sortie_index");
+//        }
+//
+//        return $this->render('sortie/edit.html.twig',["sortForm"=>$sortForm->createView()]);
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
@@ -154,8 +166,6 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
 
     #[Route('/inscritionDesistementSortie/{id}', name: 'app_inscription_desistement_sortie', methods: ['GET'])]
     public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, Sortie $sortie)
@@ -173,5 +183,17 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
+    private function generateArray($params)
+    {
+        $tempArr = array();
+        $keys = array_keys($params);
+        for($i=0; $i< count($keys); $i++)
+        {
+            if( !empty($params[$keys[$i]] ) )
+            {
+                $tempArr[$keys[$i]] = $params[$keys[$i]];
+            }
+        }
+        return $tempArr;
+    }
 }

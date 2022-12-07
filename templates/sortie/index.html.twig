@@ -30,11 +30,11 @@
             <div>
                 <div>
                     <label for="dateDepuis">Entre</label>
-                    <input type="date" name="dateDepuis" id="dateDepuis" {% if ('dateDepuis' in params|keys)  %} value="{{ params.dateDepuis }}" {% endif %}/>
+                    <input type="date" name="dateDepuis" id="dateDepuis" onchange="checkDate('debut')" {% if ('dateDepuis' in params|keys)  %} value="{{ params.dateDepuis }}" {% endif %}/>
                 </div>
                 <div>
                     <label for="dateUntil">et</label>
-                    <input type="date" name="dateUntil" id="dateUntil" {% if ('dateUntil' in params|keys)  %} value="{{ params.dateUntil }}" {% endif %}/>
+                    <input type="date" name="dateUntil" id="dateUntil" onchange="checkDate('fin')" {% if ('dateUntil' in params|keys)  %} value="{{ params.dateUntil }}" {% endif %}/>
                 </div>
 
             </div>
