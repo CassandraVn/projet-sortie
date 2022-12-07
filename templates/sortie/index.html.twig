@@ -11,6 +11,7 @@
     </div>
 
     <form action="{{ path('app_sortie_index') }}" method="post">
+        {% set keys = params|keys %}
         <div>
             <h3>Filter les sorties</h3>
             <div>
@@ -18,40 +19,40 @@
                 <select name="campus" id="campus">
                     <option value="">Tout les campus</option>
                     {% for campus in lesCampus %}
-                        <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                        <option value="{{ campus.id }}" {% if ('campus' in params|keys) and (campus.id == params.campus) %} selected {% endif %}>{{ campus.nom }} </option>
                     {% endfor %}
                 </select>
             </div>
             <div>
                 <label for="nomSortie">Le nom de la sortie contient</label>
-                <input type="text" name="nomSortie" id="nomSortie"/>
+                <input type="text" name="nomSortie" id="nomSortie" {% if ('nomSortie' in params|keys)  %} value="{{ params.nomSortie|replace({ ('%'): '' }) }}" {% endif %}/>
             </div>
             <div>
                 <div>
                     <label for="dateDepuis">Entre</label>
-                    <input type="date" name="dateDepuis" id="dateDepuis"/>
+                    <input type="date" name="dateDepuis" id="dateDepuis" {% if ('dateDepuis' in params|keys)  %} value="{{ params.dateDepuis }}" {% endif %}/>
                 </div>
                 <div>
                     <label for="dateUntil">et</label>
-                    <input type="date" name="dateUntil" id="dateUntil"/>
+                    <input type="date" name="dateUntil" id="dateUntil" {% if ('dateUntil' in params|keys)  %} value="{{ params.dateUntil }}" {% endif %}/>
                 </div>
 
             </div>
             <div>
                 <div>
                     <label>Sorties dont je suis organisateur/trice</label>
-                    <input type="checkbox" id="orga" name="orga">
+                    <input type="checkbox" id="orga" name="orga" {% if ('orga' in params|keys)  %} checked {% endif %}>
                 </div>
                 <div>
                     <label>Sorties auxquelles je suis inscrit/e</label>
-                    <input type="checkbox" id="inscrit" name="inscrit">
+                    <input type="checkbox" id="inscrit" name="inscrit" {% if ('inscrit' in params|keys)  %} checked {% endif %}>
                 </div>
                 <div>
                     <label>Sorties auxquelles je ne suis pas inscrit/e</label>
-                    <input type="checkbox" id="pasInscrit" name="pasInscrit">
+                    <input type="checkbox" id="pasInscrit" name="pasInscrit" {% if ('pasInscrit' in params|keys)  %} checked {% endif %}>
                 </div> <div>
                     <label>Sorties passées</label>
-                    <input type="checkbox" id="passees" name="passees">
+                    <input type="checkbox" id="passees" name="passees" {% if ('passees' in params|keys)  %} checked {% endif %}>
                 </div>
             </div>
         </div>

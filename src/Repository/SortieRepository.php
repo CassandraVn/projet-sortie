@@ -81,12 +81,8 @@ class SortieRepository extends ServiceEntityRepository
         }
         if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
         {
-            $query = $query->setParameters(
-                [
-                    'dateDepuis'  => $params["dateDepuis"],
-                    'dateUntil'   => $params["dateUntil"]
-                ]
-            );
+            $query = $query->setParameter('dateDepuis', $params["dateDepuis"]);
+            $query = $query->setParameter('dateUntil', $params["dateUntil"]);
         }
         if( isset($params["pasInscrit"]) or isset($params["inscrit"]) or isset($params["orga"]) )
         {

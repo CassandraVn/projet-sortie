@@ -21,10 +21,9 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
-
+        $params = array("user"=>$this->getUser()->getId());
         if( !empty($_POST) )
         {
-            $params = array("user"=>$this->getUser()->getId());
             if( $_POST["campus"] != '')
             {
                 $params['campus'] = $_POST["campus"];
@@ -68,7 +67,8 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/index.html.twig', [
             'sorties' =>  $sorties,
-            'lesCampus' => $campusRepository->findAll()
+            'lesCampus' => $campusRepository->findAll(),
+            'params' => $params
         ]);
     }
 
