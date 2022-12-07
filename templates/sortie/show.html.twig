@@ -3,42 +3,51 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
-                <th>DateHeureDebut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>DateLimiteInscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NbInscriptionMax</th>
-                <td>{{ sortie.nbInscriptionMax }}</td>
-            </tr>
-            <tr>
-                <th>InfosSortie</th>
-                <td>{{ sortie.infosSortie }}</td>
-            </tr>
-            <tr>
-                <th>MotifAnnulation</th>
-                <td>{{ sortie.motifAnnulation }}</td>
-            </tr>
+    <h2>Detail Sortie</h2>
+    <h3>Nom sortie: {{ sortie.nom }}</h3>
+    <small>Date de sortie: {{  sortie.dateHeureDebut ? sortie.dateHeureDebut|date("d/m/Y  H:i:s") }}</small> <br>
+    <small>Duree: {{ sortie.duree }}</small> <br>
+    <small>Date limite d'inscription : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date("d/m/Y") : '' }}</small> <br>
+    <small>Nombre de place: {{  sortie.nbInscriptionMax }}</small> <br>
+    <small>Description et Info: {{ sortie.infosSortie }}</small> <br>
+    <small>Campus: {{  sortie.campus }}</small> <br>
+    <small>Lieu: {{ sortie.lieu }}</small> <br>
+    <small>Rue: {{  sortie.lieu.rue }}</small> <br>
+    <small>Code Postal: {{ sortie.lieu.ville.codePostal }}</small> <br>
+    <small>Latitude: {{  sortie.lieu.latitude }}</small> <br>
+    <small>Longitude: {{ sortie.lieu.longitude }}</small> <br>
+
+
+
+
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Nom</th>
+                        <th>Actions</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.pseudo }}</td>
+                            <td>{{ utilisateur.nom }} {{ utilisateur.prenom }}</td>
+                            <td>
+                                <a class="btn btn-outline-info" href="{{ path('app_utilisateur_show',{id:utilisateur.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
         </tbody>
     </table>
 
@@ -46,5 +55,5 @@
 
     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+{#    {{ include('sortie/_delete_form.html.twig') }}#}
 {% endblock %}

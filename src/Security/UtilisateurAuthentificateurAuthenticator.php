@@ -46,8 +46,7 @@ class UtilisateurAuthentificateurAuthenticator extends AbstractLoginFormAuthenti
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-         return new RedirectResponse($this->urlGenerator->generate('/'));
+         return new RedirectResponse($this->urlGenerator->generate('app_utilisateur_index'));
     }
 
     protected function getLoginUrl(Request $request): string

@@ -4,10 +4,27 @@
 
 {% block body %}
     <h1>Edit Utilisateur</h1>
-
-    {{ include('utilisateur/_form.html.twig', {'button_label': 'Update'}) }}
-
+    {{ form(formUser) }}
     <a href="{{ path('app_utilisateur_index') }}">back to list</a>
 
-    {{ include('utilisateur/_delete_form.html.twig') }}
+{#    {{ include('utilisateur/_delete_form.html.twig') }}#}
+    <script>
+        $(document).ready(function() {
+            var formu = document.querySelector('[name="utilisateur"]');
+            var mdp = document.getElementById('utilisateur_password');
+            var confirm = document.getElementById('utilisateur_confirm');
+            formu.addEventListener('change', function(){
+                if (mdp.value != null || mdp.value != "") {
+                    mdp.required = true;
+                    confirm.required = true;
+                    console.log('pas vide :)))))')
+                } else {
+                    mdp.required = false;
+                    confirm.required = false;
+                    console.log('vide :(((((')
+                }
+            });
+
+        });
+    </script>
 {% endblock %}
