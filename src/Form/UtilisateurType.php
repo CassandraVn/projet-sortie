@@ -33,15 +33,17 @@ class UtilisateurType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom'
             ])
-            ->add('photo', FileType::class, ['label'=>'Ma photo', 'required'=>false, 'mapped'=> false, 'constraints'=>[
-                                new File([
-                                    'mimeTypes' => ['image/jpeg', 'image/png'],
-                                    'mimeTypesMessage' => 'Veuillez choisir une photo en format JPEG ou PNG.'
-                                ])
-
-                            ]])
-            ->add('ajout', SubmitType::class, ['label'=>'Modifier'])
-        ;
+            ->add('photo', FileType::class,
+                ['label'=>'Ma photo',
+                    'required'=>false,
+                    'mapped'=> false,
+                    'constraints'=>[
+                        new File([
+                            'mimeTypes' => ['image/jpeg', 'image/png'],
+                            'mimeTypesMessage' => 'Veuillez choisir une photo en format JPEG ou PNG.'
+                        ])
+                    ]])
+            ->add('ajout', SubmitType::class, ['label'=>'Modifier']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
