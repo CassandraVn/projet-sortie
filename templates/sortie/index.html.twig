@@ -7,24 +7,23 @@
         <h1>Sorties</h1>
     </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Right-aligned menu
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown button
         </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">Action</button>
-            <button class="dropdown-item" type="button">Another action</button>
-            <button class="dropdown-item" type="button">Something else here</button>
-        </div>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
     </div>
 
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filtrer
-        </button>
-        <div class="dropdown-menu">
-            <form class="px-50 py-30" action="{{ path('app_sortie_index') }}" method="post">
-                        <div>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+Filtre        </button>
+            <div class="dropdown-menu">
+                <form class="px-4 py-3">
+                    <div class="mb-3">
                             <h3>Filter les sorties</h3>
                             <div>
                                 <label for="campus">Campus</label>
@@ -70,10 +69,6 @@
                         </div>
                         <button type="submit">Rechercher</button>
             </form>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">New around here? Sign up</a>
-            <a class="dropdown-item" href="#">Forgot password?</a>
-        </div>
     </div>
 
 {#    <form action="{{ path('app_sortie_index') }}" method="post">#}
