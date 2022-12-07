@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Utilisateur{% endblock %}
+{% block title %}Modifier mon profil{% endblock %}
 
 {% block body %}
     <h1>Edit Utilisateur</h1>
@@ -17,11 +17,9 @@
                 if (mdp.textLength > 0 || confirm.textLength > 0) {
                     mdp.required = true;
                     confirm.required = true;
-                    console.log('pas vide :)))))')
                 } else {
                     mdp.required = false;
                     confirm.required = false;
-                    console.log('vide :(((((')
                 }
             });
 
