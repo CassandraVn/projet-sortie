@@ -39,6 +39,67 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByFiltre($params)
+    {
+        $query =  $this->createQueryBuilder('s');
+
+        if( isset($params["campus"]) )
+        {
+            $query = $query->andWhere("s.campus = :campus");
+        }
+        if( isset($params["nomSortie"]) )
+        {
+            $query = $query->andWhere("s.nom like :nomSortie");
+        }
+
+        if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
+        {
+            $query = $query->andWhere('s.dateHeureDebut BETWEEN :dateDepuis AND :dateUntil');
+        }
+
+        if( isset($params["orga"]) )
+        {
+            $query = $query->andWhere("s.Organisateur = :user");
+        }
+        if( isset($params["inscrit"]) )
+        {
+            $query = $query->andWhere(":user MEMBER OF s.Participant");
+        }
+        if( isset($params["pasInscrit"]) )
+        {
+            $query = $query->andWhere(":user NOT MEMBER OF s.Participant");
+        }
+        if( isset($params["passees"]) )
+        {
+            $query = $query->join("s.etat", "e");
+            $query = $query->andWhere("e.libelle = 'Passée'");
+        }
+
+        if( isset($params["campus"]) )
+        {
+            $query = $query->setParameter('campus', $params["campus"]);
+        }
+        if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
+        {
+            $query = $query->setParameters(
+                [
+                    'dateDepuis'  => $params["dateDepuis"],
+                    'dateUntil'   => $params["dateUntil"]
+                ]
+            );
+        }
+        if( isset($params["pasInscrit"]) or isset($params["inscrit"]) or isset($params["orga"]) )
+        {
+            $query = $query->setParameter('user', $params["user"]);
+        }
+        if( isset($params["nomSortie"]) )
+        {
+            $query = $query->setParameter('nomSortie', $params["nomSortie"]);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
