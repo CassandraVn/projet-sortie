@@ -118,15 +118,6 @@ class SortieController extends AbstractController
             'form' => $form,
         ]);
 
-//        $sortForm = $this->createForm(SortieType::class,$sortie);
-//        $sortForm->handleRequest($request);
-//
-//        if($sortForm->isSubmitted() && $sortForm->isValid()){
-//            $sortieRepository->update();
-//            return $this->redirectToRoute("app_sortie_index");
-//        }
-//
-//        return $this->render('sortie/edit.html.twig',["sortForm"=>$sortForm->createView()]);
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
