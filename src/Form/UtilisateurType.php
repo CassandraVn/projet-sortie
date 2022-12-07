@@ -20,7 +20,7 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, ['label'=>'Pseudo'])
-            ->add('password', PasswordType::class, ['label'=>'Mot de passe', 'required'=>false])
+            ->add('plainPassword', PasswordType::class, ['label'=>'Mot de passe', 'required'=>false, 'mapped'=>false])
             ->add('confirm', PasswordType::class, ['label'=>'Confirmation', 'required'=>false, 'mapped'=>false])
             ->add('nom', TextType::class, ['label'=>'Nom'])
             ->add('prenom', TextType::class, ['label'=>'Prénom'])

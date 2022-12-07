@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
@@ -49,12 +52,30 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
+    public function edit(Request $request, UserPasswordHasherInterface $hasher, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
     {
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (empty($form->get('plainPassword')->getData())) {
+                $utilisateur->setPseudo($form->get('pseudo')->getData());
+                $utilisateur->setNom($form->get('nom')->getData());
+                $utilisateur->setPrenom($form->get('prenom')->getData());
+                $utilisateur->setMail($form->get('mail')->getData());
+                $utilisateur->setCampus($form->get('campus')->getData());
+            } else {
+                if ($form->get('plainPassword')->getData() == $form->get('confirm')->getData()) {
+                    $utilisateur->setPseudo($form->get('pseudo')->getData());
+                    $password = $hasher->hashPassword($utilisateur, $form->get('plainPassword')->getData());
+                    $utilisateur->setPassword($password);
+                    $utilisateur->setNom($form->get('nom')->getData());
+                    $utilisateur->setPrenom($form->get('prenom')->getData());
+                    $utilisateur->setMail($form->get('mail')->getData());
+                    $utilisateur->setCampus($form->get('campus')->getData());
+                }
+            }
+
             $utilisateurRepository->save($utilisateur, true);
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);

@@ -14,7 +14,7 @@
             var mdp = document.getElementById('utilisateur_password');
             var confirm = document.getElementById('utilisateur_confirm');
             formu.addEventListener('change', function(){
-                if (mdp.value != null || mdp.value != "") {
+                if (mdp.textLength > 0 || confirm.textLength > 0) {
                     mdp.required = true;
                     confirm.required = true;
                     console.log('pas vide :)))))')
