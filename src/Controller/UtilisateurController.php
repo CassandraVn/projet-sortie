@@ -53,11 +53,13 @@ class UtilisateurController extends AbstractController
 
     #[Route('/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, UserPasswordHasherInterface $hasher, UtilisateurRepository $utilisateurRepository, SluggerInterface $slugger): Response
+
     {
         $form = $this->createForm(UtilisateurType::class, $this->getUser());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $photo = $form->get('photo')->getData();
             if ($photo) {
                 $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
@@ -75,6 +77,7 @@ class UtilisateurController extends AbstractController
                 dd($newFilename);
                 $this->getUser()->setPhoto($newFilename);
             }
+
             if (!empty($form->get('plainPassword')->getData())) {
                 $password = $hasher->hashPassword($this->getUser(), $form->get('plainPassword')->getData());
                 $this->getUser()->setPassword($password);
