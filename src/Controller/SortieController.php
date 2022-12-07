@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,29 +53,40 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
-    public function show(Sortie $sortie): Response
+    public function show(Sortie $sortie, UtilisateurRepository $utilisateurRepo): Response
     {
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'utilisateurs' => $utilisateurRepo->findAll()
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
+//        $form = $this->createForm(SortieType::class, $sortie);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $sortieRepository->save($sortie, true);
+//
+//            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+//        }
+//
+//        return $this->renderForm('sortie/edit.html.twig', [
+//            'sortie' => $sortie,
+//            'form' => $form,
+//        ]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $sortieRepository->save($sortie, true);
+        $sortForm = $this->createForm(SortieType::class,$sortie);
+        $sortForm->handleRequest($request);
 
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        if($sortForm->isSubmitted() && $sortForm->isValid()){
+            $sortieRepository->update();
+            return $this->redirectToRoute("app_sortie_index");
         }
 
-        return $this->renderForm('sortie/edit.html.twig', [
-            'sortie' => $sortie,
-            'form' => $form,
-        ]);
+        return $this->render('sortie/edit.html.twig',["sortForm"=>$sortForm->createView()]);
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]

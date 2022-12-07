@@ -5,9 +5,18 @@
 {% block body %}
     <h1>Edit Sortie</h1>
 
-    {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="row mt-5">
+        <div class="col-6 offset-3">
+            {{form_start($sortForm)}}
+            {{ form_widget($sortForm) }}
+            <button class="btn btn-success" type="submit">Modifier</button>
+            {{form_end($sortForm)}}
+        </div>
+    </div>
+
+{#    {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}#}
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+{#    {{ include('sortie/_delete_form.html.twig') }}#}
 {% endblock %}
