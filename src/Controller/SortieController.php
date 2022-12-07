@@ -104,29 +104,29 @@ class SortieController extends AbstractController
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
-//        $form = $this->createForm(SortieType::class, $sortie);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $sortieRepository->save($sortie, true);
-//
-//            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->renderForm('sortie/edit.html.twig', [
-//            'sortie' => $sortie,
-//            'form' => $form,
-//        ]);
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
 
-        $sortForm = $this->createForm(SortieType::class,$sortie);
-        $sortForm->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sortieRepository->save($sortie, true);
 
-        if($sortForm->isSubmitted() && $sortForm->isValid()){
-            $sortieRepository->update();
-            return $this->redirectToRoute("app_sortie_index");
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('sortie/edit.html.twig',["sortForm"=>$sortForm->createView()]);
+        return $this->renderForm('sortie/edit.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form,
+        ]);
+
+//        $sortForm = $this->createForm(SortieType::class,$sortie);
+//        $sortForm->handleRequest($request);
+//
+//        if($sortForm->isSubmitted() && $sortForm->isValid()){
+//            $sortieRepository->update();
+//            return $this->redirectToRoute("app_sortie_index");
+//        }
+//
+//        return $this->render('sortie/edit.html.twig',["sortForm"=>$sortForm->createView()]);
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
