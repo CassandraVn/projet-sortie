@@ -19,16 +19,12 @@
     <small>Longitude: {{ sortie.lieu.longitude }}</small> <br>
 
 
-
-
                 <table class="table">
                     <thead>
                     <tr>
-
                         <th scope="col">Pseudo</th>
                         <th scope="col">Nom</th>
                         <th>Actions</th>
-
 
                     </tr>
                     </thead>
@@ -38,15 +34,13 @@
                             <td>{{ utilisateur.pseudo }}</td>
                             <td>{{ utilisateur.nom }} {{ utilisateur.prenom }}</td>
                             <td>
-                                <a class="btn btn-outline-info" href="{{ path('app_utilisateur_show',{id:utilisateur.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                                <a class="btn btn-outline-info" href="{{ path('app_utilisateur_profil',{id:utilisateur.id}) }}"><i class="fa-solid fa-eye"></i></a>
                             </td>
 
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-
-
 
         </tbody>
     </table>

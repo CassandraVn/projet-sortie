@@ -95,6 +95,31 @@ class SortieController extends AbstractController
 
     }
 
+
+    #[Route('/{id}/cancel', name: 'app_sortie_cancel', methods: ['GET', 'POST'])]
+    public function cancel(Request $request, SortieRepository $sortieRepository, Sortie $sortie,  EtatRepository $etatRepo): Response
+    {
+
+        $etat = $etatRepo-> findOneBy(['libelle'=> 'Annulée']);
+        $sortie->setEtat($etat);
+        $sortForm = $this->createForm(SortieType::class, $sortie);
+        $sortForm->handleRequest($request);
+
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+            $sortieRepository->save($sortie, true);
+
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('sortie/cancel.html.twig', [
+            'sortie' => $sortie,
+            'sortForm' => $sortForm,
+        ]);
+
+    }
+
+
+
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie, UtilisateurRepository $utilisateurRepo): Response
     {
@@ -107,10 +132,10 @@ class SortieController extends AbstractController
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
+        $sortForm = $this->createForm(SortieType::class, $sortie);
+        $sortForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
             $sortieRepository->save($sortie, true);
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
@@ -118,7 +143,7 @@ class SortieController extends AbstractController
 
         return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
-            'form' => $form,
+            'sortForm' => $sortForm,0
         ]);
 
 //        $sortForm = $this->createForm(SortieType::class,$sortie);
