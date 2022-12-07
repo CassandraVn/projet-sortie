@@ -8,6 +8,7 @@ use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/utilisateur')]
@@ -40,7 +41,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_utilisateur_profil', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_utilisateur_profil', methods: ['GET'], requirements: ['id'=>'[0-9]+'])]
     public function show(Utilisateur $utilisateur): Response
     {
         return $this->render('utilisateur/show.html.twig', [
@@ -48,25 +49,26 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
+    #[Route('/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, UserPasswordHasherInterface $hasher, UtilisateurRepository $utilisateurRepository): Response
     {
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $this->getUser());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateurRepository->save($utilisateur, true);
+            if (!empty($form->get('plainPassword')->getData())) {
+                $password = $hasher->hashPassword($this->getUser(), $form->get('plainPassword')->getData());
+                $this->getUser()->setPassword($password);
+            }
+
+            $utilisateurRepository->save($this->getUser(), true);
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('utilisateur/edit.html.twig', [
-            'utilisateur' => $utilisateur,
-            'formUser' => $form,
-        ]);
+        return $this->renderForm('utilisateur/edit.html.twig', ['utilisateur' => $this->getUser(), 'formUser' => $form]);
     }
 
-    #[Route('/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$utilisateur->getId(), $request->request->get('_token'))) {
