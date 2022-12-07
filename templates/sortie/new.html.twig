@@ -8,45 +8,49 @@
     {{form_start(sortForm)}}
     <div class="row mt-5">
         <div class="col-6 offset-3">
+
         <div class="row mt-7">
-{#            {{ form_label(sortForm.nom, 'Nom') }}#}
             {{ form_row(sortForm.nom) }}
         </div>
-
         <div class="row mt-7">
             {{ form_row(sortForm.dateHeureDebut) }}
         </div>
-
         <div class="input-field col s12 m6 l6">
             {{ form_row(sortForm.duree) }}
         </div>
-
         <div class="input-field col s12 m6 l6">
             {{ form_row(sortForm.dateLimiteInscription) }}
         </div>
-
         <div class="input-field col s12 m6 l6">
             {{ form_row(sortForm.nbInscriptionMax) }}
         </div>
-
         <div class="input-field col s12 m6 l6">
             {{ form_row(sortForm.infosSortie) }}
         </div>
-
         <div class="input-field col s12 m6 l6">
             {{ form_row(sortForm.lieu) }}
-        </div>
             <a href="{{ path('app_lieu_new') }}"><i class="bi bi-plus-circle-fill"></i></a>
-
+        </div>
 
         <div class="input-field col s12 m6 l6">
-        {{ form_row(sortForm.campus) }}
+            {{ form_row(sortForm.campus) }}
+        </div>
+        <div hidden class="input-field col s12 m6 l6" >
+             {{ form_row(sortForm.motifAnnulation) }}
         </div>
 
+{#            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>#}
+
             <button class="btn btn-primary" type="submit">Ajouter</button>
-                        {{form_end(sortForm)}}
-                    </div>
+
+
+            {{form_end(sortForm)}}
+
+        </div>
 
     </div>
+    </div>
+
+
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 {% endblock %}

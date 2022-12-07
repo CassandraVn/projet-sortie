@@ -6,7 +6,57 @@
     <h1>Edit Sortie</h1>
 
 
-    {{ include('sortie/_form.html.twig', {'button_label': 'Modifier'}) }}
+    {{form_start(sortForm)}}
+    <div class="row mt-5">
+        <div class="col-6 offset-3">
+            <div class="row mt-7">
+                {#            {{ form_label(sortForm.nom, 'Nom') }}#}
+                {{ form_row(sortForm.nom) }}
+            </div>
+
+            <div class="row mt-7">
+                {{ form_row(sortForm.dateHeureDebut) }}
+            </div>
+
+            <div class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.duree) }}
+            </div>
+
+            <div class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.dateLimiteInscription) }}
+            </div>
+
+            <div class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.nbInscriptionMax) }}
+            </div>
+
+            <div class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.infosSortie) }}
+            </div>
+
+            <div class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.lieu) }}
+            </div>
+
+
+            <div class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.campus) }}
+            </div>
+
+            <div hidden class="input-field col s12 m6 l6">
+                {{ form_row(sortForm.motifAnnulation) }}
+            </div>
+
+
+
+               {{ include('sortie/_form.html.twig', {'button_label': 'Modifier'}) }}
+            {{form_end(sortForm)}}
+        </div>
+
+    </div>
+
+
+{#    {{ include('sortie/_form.html.twig', {'button_label': 'Modifier'}) }}#}
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
