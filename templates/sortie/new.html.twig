@@ -3,7 +3,16 @@
 {% block title %}New Sortie{% endblock %}
 
 {% block body %}
-    <h1>Creer une Sortie</h1>
+
+    <div class="row mt-5 text-center">
+        <h1>Creer une Sortie</h1>
+    </div>
+
+    <p>
+        <a style="color: black" href="{{ path('app_sortie_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
+
+    </p>
+
 
     {{form_start(sortForm)}}
     <div class="row mt-5">
@@ -15,33 +24,32 @@
         <div class="row mt-7">
             {{ form_row(sortForm.dateHeureDebut) }}
         </div>
-        <div class="input-field col s12 m6 l6">
+        <div class="row mt-7">
             {{ form_row(sortForm.duree) }}
         </div>
-        <div class="input-field col s12 m6 l6">
+
+        <div class="row mt-7">
             {{ form_row(sortForm.dateLimiteInscription) }}
         </div>
-        <div class="input-field col s12 m6 l6">
+        <div class="row mt-7">
             {{ form_row(sortForm.nbInscriptionMax) }}
         </div>
-        <div class="input-field col s12 m6 l6">
+        <div class="row mt-7">
             {{ form_row(sortForm.infosSortie) }}
         </div>
-        <div class="input-field col s12 m6 l6">
-            {{ form_row(sortForm.lieu) }}
+        <div class="row mt-7">
             <a href="{{ path('app_lieu_new') }}"><i class="bi bi-plus-circle-fill"></i></a>
+            {{ form_row(sortForm.lieu) }}
         </div>
 
-        <div class="input-field col s12 m6 l6">
+        <div class="row mt-7">
             {{ form_row(sortForm.campus) }}
         </div>
-        <div hidden class="input-field col s12 m6 l6" >
+        <div hidden class="row mt-7" >
              {{ form_row(sortForm.motifAnnulation) }}
         </div>
 
-{#            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>#}
-
-            <button class="btn btn-primary" type="submit">Ajouter</button>
+            <button class="btn btn-outline-primary" type="submit">Ajouter</button>
 
 
             {{form_end(sortForm)}}
@@ -52,5 +60,5 @@
     </div>
 
 
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
 {% endblock %}
+
