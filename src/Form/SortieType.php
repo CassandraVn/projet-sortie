@@ -48,6 +48,7 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom',
                 'data' => $this->security->getUser()->getCampus()
                 ])
+            ->add('motifAnnulation' , TextareaType::class)
         ;
     }
 
@@ -55,6 +56,7 @@ class SortieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sortie::class,
+            'required' => false
         ]);
     }
 }
