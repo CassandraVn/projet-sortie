@@ -24,43 +24,7 @@ class SortieController extends AbstractController
         $params = array("user"=>$this->getUser()->getId());
         if( !empty($_POST) )
         {
-            /*
-            if( $_POST["campus"] != '')
-            {
-                $params['campus'] = $_POST["campus"];
-            }
-            if(  $_POST["nomSortie"] != '' )
-            {
-                $params['nomSortie'] = "%".$_POST["nomSortie"]."%";
-            }
-            if( $_POST["dateDepuis"] != '' )
-            {
-                $params['dateDepuis'] = $_POST["dateDepuis"];
-            }
-            if( $_POST["dateUntil"] != '' )
-            {
-                $params['dateUntil'] = $_POST["dateUntil"];
-            }
-
-            if( isset($_POST["orga"]) and $_POST["orga"] == 'on' )
-            {
-                $params['orga'] = $_POST["orga"];
-            }
-            if( isset($_POST["inscrit"]) and $_POST["inscrit"] == 'on' )
-            {
-                $params['inscrit'] = $_POST["inscrit"];
-            }
-            if( isset($_POST["pasInscrit"]) and $_POST["pasInscrit"] == 'on' )
-            {
-                $params['pasInscrit'] = $_POST["pasInscrit"];
-            }
-            if( isset($_POST["passees"]) and $_POST["passees"] == 'on' )
-            {
-                $params['passees'] = $_POST["passees"];
-            }
-            */
-
-            $params = array_merge($params, $this->generateArray($_POST));
+            $params = array_merge($params, $this->generateParamsArray($_POST));
             $sorties = $sortieRepository->findByFiltre($params);
         }
         else
@@ -145,16 +109,6 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'sortForm' => $sortForm,0
         ]);
-
-//        $sortForm = $this->createForm(SortieType::class,$sortie);
-//        $sortForm->handleRequest($request);
-//
-//        if($sortForm->isSubmitted() && $sortForm->isValid()){
-//            $sortieRepository->update();
-//            return $this->redirectToRoute("app_sortie_index");
-//        }
-//
-//        return $this->render('sortie/edit.html.twig',["sortForm"=>$sortForm->createView()]);
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
@@ -183,7 +137,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function generateArray($params)
+    private function generateParamsArray($params)
     {
         $tempArr = array();
         $keys = array_keys($params);

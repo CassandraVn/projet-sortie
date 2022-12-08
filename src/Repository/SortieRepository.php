@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -91,7 +92,9 @@ class SortieRepository extends ServiceEntityRepository
             $query = $query->setParameter('nomSortie', $params["nomSortie"]);
         }
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()
+                     ->getResult();
+
     }
 
 //    /**
