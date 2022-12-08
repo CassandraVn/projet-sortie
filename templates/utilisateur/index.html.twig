@@ -30,7 +30,7 @@
                 <td>{{ utilisateur.mail }}</td>
                 <td>
                     <a href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}">show</a>
-                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+                    <a href="{{ path('app_utilisateur_edit') }}">edit</a>
                 </td>
             </tr>
         {% else %}
