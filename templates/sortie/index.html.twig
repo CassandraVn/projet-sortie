@@ -9,171 +9,58 @@
 
 
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-    </div>
-
-    <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
 Filtre        </button>
             <div class="dropdown-menu">
-                <form class="px-4 py-3">
+                <form class="px-4 py-3" action="{{ path('app_sortie_index') }}" method="post">
                     <div class="mb-3">
                             <h3>Filter les sorties</h3>
-                            <div>
-                                <label for="campus">Campus</label>
-                                <select name="campus" id="campus">
+                            <div class="mb-3">
+                                <label for="campus" class="form-label">Campus</label>
+                                <select name="campus" id="campus" class="form-control">
                                     <option value="">Tout les campus</option>
                                     {% for campus in lesCampus %}
                                         <option value="{{ campus.id }}">{{ campus.nom }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div>
-                                <label for="nomSortie">Le nom de la sortie contient</label>
-                                <input type="text" name="nomSortie" id="nomSortie"/>
+                            <div class="mb-3">
+                                <label for="nomSortie" class="form-label">Le nom de la sortie contient</label>
+                                <input type="text"  class="form-control" name="nomSortie" id="nomSortie"/>
                             </div>
                             <div>
-                                <div>
-                                    <label for="dateDepuis">Entre</label>
-                                    <input type="date" name="dateDepuis" id="dateDepuis"/>
+                                <div class="mb-3">
+                                    <label for="dateDepuis" class="form-label">Entre</label>
+                                    <input type="date"  class="form-control" name="dateDepuis" id="dateDepuis"/>
                                 </div>
-                                <div>
-                                    <label for="dateUntil">et</label>
-                                    <input type="date" name="dateUntil" id="dateUntil"/>
+                                <div class="mb-3">
+                                    <label for="dateUntil" class="form-label">et</label>
+                                    <input type="date"  class="form-control" name="dateUntil" id="dateUntil"/>
                                 </div>
 
                             </div>
                             <div>
-                                <div>
-                                    <label>Sorties dont je suis organisateur/trice</label>
-                                    <input type="checkbox" id="orga" name="orga">
+                                <div class="mb-3">
+                                    <input type="checkbox"  class="form-check-input" id="orga" name="orga">
+                                    <label class="form-check-label">Sorties dont je suis organisateur/trice</label>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="checkbox" class="form-check-input" id="inscrit" name="inscrit">
+                                    <label class="form-check-label">Sorties auxquelles je suis inscrit/e</label>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="checkbox"  class="form-check-input" id="pasInscrit" name="pasInscrit">
+                                    <label class="form-check-label">Sorties auxquelles je ne suis pas inscrit/e</label>
                                 </div>
                                 <div>
-                                    <label>Sorties auxquelles je suis inscrit/e</label>
-                                    <input type="checkbox" id="inscrit" name="inscrit">
-                                </div>
-                                <div>
-                                    <label>Sorties auxquelles je ne suis pas inscrit/e</label>
-                                    <input type="checkbox" id="pasInscrit" name="pasInscrit">
-                                </div> <div>
-                                    <label>Sorties passées</label>
-                                    <input type="checkbox" id="passees" name="passees">
+                                    <input type="checkbox" class="form-check-input" id="passees" name="passees">
+                                    <label class="form-check-label">Sorties passées</label>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit">Rechercher</button>
+                        <button  class="btn btn-outline-secondary" type="submit" >Rechercher</button>
             </form>
     </div>
-
-{#    <form action="{{ path('app_sortie_index') }}" method="post">#}
-{#        <div>#}
-{#            <h3>Filter les sorties</h3>#}
-{#            <div>#}
-{#                <label for="campus">Campus</label>#}
-{#                <select name="campus" id="campus">#}
-{#                    <option value="">Tout les campus</option>#}
-{#                    {% for campus in lesCampus %}#}
-{#                        <option value="{{ campus.id }}">{{ campus.nom }}</option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
-{#            </div>#}
-{#            <div>#}
-{#                <label for="nomSortie">Le nom de la sortie contient</label>#}
-{#                <input type="text" name="nomSortie" id="nomSortie"/>#}
-{#            </div>#}
-{#            <div>#}
-{#                <div>#}
-{#                    <label for="dateDepuis">Entre</label>#}
-{#                    <input type="date" name="dateDepuis" id="dateDepuis"/>#}
-{#                </div>#}
-{#                <div>#}
-{#                    <label for="dateUntil">et</label>#}
-{#                    <input type="date" name="dateUntil" id="dateUntil"/>#}
-{#                </div>#}
-
-{#            </div>#}
-{#            <div>#}
-{#                <div>#}
-{#                    <label>Sorties dont je suis organisateur/trice</label>#}
-{#                    <input type="checkbox" id="orga" name="orga">#}
-{#                </div>#}
-{#                <div>#}
-{#                    <label>Sorties auxquelles je suis inscrit/e</label>#}
-{#                    <input type="checkbox" id="inscrit" name="inscrit">#}
-{#                </div>#}
-{#                <div>#}
-{#                    <label>Sorties auxquelles je ne suis pas inscrit/e</label>#}
-{#                    <input type="checkbox" id="pasInscrit" name="pasInscrit">#}
-{#                </div> <div>#}
-{#                    <label>Sorties passées</label>#}
-{#                    <input type="checkbox" id="passees" name="passees">#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <button type="submit">Rechercher</button>#}
-{#    </form>#}
-
-    <div>
-        <h5>Date du jour : {{ "now"|date("d/m/Y") }}</h5>
-        <h5>Participant : {{ app.user.pseudo }}</h5>
-    </div>
-
-    <form action="{{ path('app_sortie_index') }}" method="post">
-        {% set keys = params|keys %}
-        <div>
-            <h3>Filter les sorties</h3>
-            <div>
-                <label for="campus">Campus</label>
-                <select name="campus" id="campus">
-                    <option value="">Tout les campus</option>
-                    {% for campus in lesCampus %}
-                        <option value="{{ campus.id }}" {% if ('campus' in params|keys) and (campus.id == params.campus) %} selected {% endif %}>{{ campus.nom }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="nomSortie">Le nom de la sortie contient</label>
-                <input type="text" name="nomSortie" id="nomSortie" {% if ('nomSortie' in params|keys)  %} value="{{ params.nomSortie|replace({ ('%'): '' }) }}" {% endif %}/>
-            </div>
-            <div>
-                <div>
-                    <label for="dateDepuis">Entre</label>
-                    <input type="date" name="dateDepuis" id="dateDepuis" onchange="checkDate('debut')" {% if ('dateDepuis' in params|keys)  %} value="{{ params.dateDepuis }}" {% endif %}/>
-                </div>
-                <div>
-                    <label for="dateUntil">et</label>
-                    <input type="date" name="dateUntil" id="dateUntil" onchange="checkDate('fin')" {% if ('dateUntil' in params|keys)  %} value="{{ params.dateUntil }}" {% endif %}/>
-                </div>
-
-            </div>
-            <div>
-                <div>
-                    <label>Sorties dont je suis organisateur/trice</label>
-                    <input type="checkbox" id="orga" name="orga" {% if ('orga' in params|keys)  %} checked {% endif %}>
-                </div>
-                <div>
-                    <label>Sorties auxquelles je suis inscrit/e</label>
-                    <input type="checkbox" id="inscrit" name="inscrit" {% if ('inscrit' in params|keys)  %} checked {% endif %}>
-                </div>
-                <div>
-                    <label>Sorties auxquelles je ne suis pas inscrit/e</label>
-                    <input type="checkbox" id="pasInscrit" name="pasInscrit" {% if ('pasInscrit' in params|keys)  %} checked {% endif %}>
-                </div> <div>
-                    <label>Sorties passées</label>
-                    <input type="checkbox" id="passees" name="passees" {% if ('passees' in params|keys)  %} checked {% endif %}>
-                </div>
-            </div>
-        </div>
-        <button type="submit">Rechercher</button>
-    </form>
-
 
     <table class="table">
         <thead>
