@@ -2,10 +2,18 @@
 
 {% block title %}Modifier mon profil{% endblock %}
 
-{% block body %}
-    <h1>Edit Utilisateur</h1>
+{% block content %}
+
+    <div class="row mt-5 text-center">
+        <h1>Modifier l'utilisateur</h1>
+    </div>
+
+    <p>
+        <a style="color: black" href="{{ path('app_utilisateur_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
+
+    </p>
+    <br>
     {{ form(formUser) }}
-    <a href="{{ path('app_utilisateur_index') }}">back to list</a>
 
 {#    {{ include('utilisateur/_delete_form.html.twig') }}#}
     <script>

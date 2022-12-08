@@ -2,15 +2,17 @@
 
 {% block title %}Utilisateur index{% endblock %}
 
-{% block body %}
-    <h1>Utilisateur index</h1>
+{% block content %}
+    <div class="row mt-5 text-center">
+        <h1>Profils</h1>
+    </div>
+    <br>
+    <br>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Pseudo</th>
-                <th>Roles</th>
                 <th>Nom</th>
                 <th>Telephone</th>
                 <th>Actif</th>
@@ -21,16 +23,14 @@
         <tbody>
         {% for utilisateur in utilisateurs %}
             <tr>
-                <td>{{ utilisateur.id }}</td>
                 <td>{{ utilisateur.pseudo }}</td>
-                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
                 <td>{{ utilisateur.prenom }} {{ utilisateur.nom }}</td>
                 <td>{{ utilisateur.telephone }}</td>
                 <td>{{ utilisateur.actif ? 'Yes' : 'No' }}</td>
                 <td>{{ utilisateur.mail }}</td>
                 <td>
-                    <a href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}">show</a>
-                    <a href="{{ path('app_utilisateur_edit') }}">edit</a>
+                    <a href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}"><i class="bi bi-eye-fill"></i></a>
+                    <a href="{{ path('app_utilisateur_edit') }}"><i class="bi bi-pencil-fill"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_utilisateur_new') }}">Create new</a>
 {% endblock %}
