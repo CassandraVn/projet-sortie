@@ -41,7 +41,9 @@ class FiltreType extends AbstractType
             ->add('inscrit', CheckboxType::class, ['label'=>"Sorties auxquelles je suis inscrit/e", 'required'=>false])
             ->add('pasInscrit', CheckboxType::class, ['label'=>"Sorties auxquelles je ne pas suis inscrit/e", 'required'=>false])
             ->add('passees', CheckboxType::class, ['label'=>"Sorties passées", 'required'=>false])
-            ->add('submit', SubmitType::class, ['label'=>"Rechercher"])
+            ->add('submit', SubmitType::class, ['label'=>"Rechercher",
+                'attr' => ['class' => 'btn btn-outline-secondary btn-submit btn-form']
+                ])
         ;
     }
 
