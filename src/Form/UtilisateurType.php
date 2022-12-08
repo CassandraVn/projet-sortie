@@ -43,7 +43,11 @@ class UtilisateurType extends AbstractType
                             'mimeTypesMessage' => 'Veuillez choisir une photo en format JPEG ou PNG.'
                         ])
                     ]])
-            ->add('ajout', SubmitType::class, ['label'=>'Modifier']);
+            ->add('ajout', SubmitType::class, [
+                'label'=>'Modifier',
+                'attr' => ['class' => 'btn btn-outline-primary btn-submit btn-form']
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
