@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,6 +40,31 @@ class SortieRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findSortieById(int $id) {
+        return $this->createQueryBuilder('s')
+            ->select('s, e, l, c, o, v, p')
+            ->join('s.etat', 'e')
+            ->join('s.lieu', 'l')
+            ->join('s.campus', 'c')
+            ->join('s.Organisateur', 'o')
+            ->join('l.ville', 'v')
+            ->leftJoin('s.Participant', 'p')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findParticipantsSortieById(int $id) {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->innerJoin('s.Participant', 'p')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_OBJECT);
     }
 
     public function findByFiltre($params=false)

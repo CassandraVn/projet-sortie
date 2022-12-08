@@ -39,7 +39,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for utilisateur in utilisateurs %}
+                        {% for utilisateur in sortie.Participant %}
                             <tr>
                                 <td>{{ utilisateur.pseudo }}</td>
                                 <td>{{ utilisateur.nom }} {{ utilisateur.prenom }}</td>
