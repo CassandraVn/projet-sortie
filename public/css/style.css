@@ -1,22 +1,45 @@
 main{
     margin: 10px;
+    min-height: 90vh;
+
 }
+
+.back{
+    position: relative;
+    /*color: #ffffff;*/
+    /*background-color: #a90000;*/
+    background-image:url(img/fondP.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    /*opacity: 0.6;*/
+    /*background-opacity: 0.6;*/
+}
+
 
 footer{
     text-align: center;
     background-color: rgba(248, 249, 250, 0.02);
     color: #5e5e5e;
-    padding: 5px;
+    /*padding: 5px;*/
 }
 
 *{
     font-family: 'Courier New', Courier, monospace;
+
 }
 
 .card {
     display: block;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
+    box-shadow: 10px 5px 5px #6a6a6a;
+
+}
+
+.bg-light {
+    --bs-bg-opacity: 1;
+    background-color: #f4efff;
+    box-shadow: 10px 5px 5px #6a6a6a;
 }
 
 
