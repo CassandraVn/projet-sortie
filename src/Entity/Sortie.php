@@ -53,6 +53,7 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $Organisateur = null;
 
+    #[ORM\JoinTable(name: "sortie_utilisateur", joinColumns: ["sortie_id", "sortie_id"], inverseJoinColumns: ["utilisateur_id", "utilisateur_id"])]
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'SortiesParticipant')]
     private Collection $Participant;
 
