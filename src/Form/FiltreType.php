@@ -25,8 +25,18 @@ class FiltreType extends AbstractType
                 'choice_label' => 'nom'
             ])
             ->add('nomSortie', TextType::class, ['label'=>"Nom de la sortie", 'required'=>false])
-            ->add('dateDepuis', DateType::class, ['label'=>"Entre", 'required'=>false])
-            ->add('dateUntil', DateType::class, ['label'=>"Et", 'required'=>false])
+            ->add('dateDepuis', DateType::class, [
+                'label'=>"Entre",
+                'required'=>false,
+                'widget' => 'single_text',
+                'attr' => ['class' => 'js-datepicker']
+                ])
+            ->add('dateUntil', DateType::class, [
+                'label'=>"Et",
+                'required'=>false,
+                'widget' => 'single_text',
+                'attr' => ['class' => 'js-datepicker']
+                ])
             ->add('organisateur', CheckboxType::class, ['label'=>"Sorties dont je suis organisateur/trice", 'required'=>false])
             ->add('inscrit', CheckboxType::class, ['label'=>"Sorties auxquelles je suis inscrit/e", 'required'=>false])
             ->add('pasInscrit', CheckboxType::class, ['label'=>"Sorties auxquelles je ne pas suis inscrit/e", 'required'=>false])
