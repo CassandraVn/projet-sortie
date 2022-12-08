@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\model\FiltreFormModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -41,7 +42,6 @@ class SortieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
     public function findSortieById(int $id) {
         return $this->createQueryBuilder('s')
             ->select('s, e, l, c, o, v, p')
@@ -67,62 +67,61 @@ class SortieRepository extends ServiceEntityRepository
             ->getResult(Query::HYDRATE_OBJECT);
     }
 
-    public function findByFiltre($params=false)
+    public function findByFiltre(FiltreFormModel $filtre, int $userId)
     {
         $query =  $this->createQueryBuilder('s')
-                        ->join("s.etat", "e")
-                        ->where("e.libelle != 'Annulée'");
+            ->join("s.etat", "e")
+            ->where("e.libelle != 'Annulée'");
 
-        if( isset($params["campus"]) )
+        if( $filtre->getCampus() )
         {
             $query = $query->andWhere("s.campus = :campus");
         }
-        if( isset($params["nomSortie"]) )
+        if( $filtre->getNomSortie() )
         {
             $query = $query->andWhere("s.nom like :nomSortie");
         }
-        if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
+        if($filtre->getDateDepuis() and $filtre->getDateUntil() )
         {
             $query = $query->andWhere('s.dateHeureDebut BETWEEN :dateDepuis AND :dateUntil');
         }
-        if( isset($params["orga"]) )
+        if( $filtre->getOrganisateur() )
         {
             $query = $query->andWhere("s.Organisateur = :user");
         }
-        if( isset($params["inscrit"]) )
+        if(  $filtre->getInscrit() )
         {
             $query = $query->andWhere(":user MEMBER OF s.Participant");
         }
-        if( isset($params["pasInscrit"]) )
+        if( $filtre->getPasInscrit() )
         {
             $query = $query->andWhere(":user NOT MEMBER OF s.Participant");
         }
-        if( isset($params["passees"]) )
+        if( $filtre->getPassees() )
         {
             $query = $query->andWhere("e.libelle = 'Passée'");
         }
-        if( isset($params["campus"]) )
+        if( $filtre->getCampus() )
         {
-            $query = $query->setParameter('campus', $params["campus"]);
+            $query = $query->setParameter('campus', $filtre->getCampus());
         }
-        if( isset($params["dateDepuis"]) and isset($params["dateUntil"]) )
+        if( $filtre->getNomSortie() )
         {
-            $query = $query->setParameter('dateDepuis', $params["dateDepuis"]);
-            $query = $query->setParameter('dateUntil', $params["dateUntil"]);
+            $query = $query->setParameter('nomSortie', "%".$filtre->getNomSortie()."%");
         }
-        if( isset($params["pasInscrit"]) or isset($params["inscrit"]) or isset($params["orga"]) )
+        if($filtre->getDateDepuis() and $filtre->getDateUntil() )
         {
-            $query = $query->setParameter('user', $params["user"]);
+            $query = $query->setParameter('dateDepuis', $filtre->getDateDepuis() );
+            $query = $query->setParameter('dateUntil', $filtre->getDateUntil() );
         }
-        if( isset($params["nomSortie"]) )
+        if( $filtre->getPasInscrit() or $filtre->getInscrit() or  $filtre->getOrganisateur() )
         {
-            $query = $query->setParameter('nomSortie', $params["nomSortie"]);
+            $query = $query->setParameter('user', $userId);
         }
-
-        return $query->getQuery()
-                     ->getResult();
-
+        return $query->getQuery()->getResult();
     }
+
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Form\FiltreType;
+use App\Form\model\FiltreFormModel;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
@@ -19,23 +21,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function index(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
-        $params = array("user"=>$this->getUser()->getId());
-        if( !empty($_POST) )
-        {
-            $params = array_merge($params, $this->generateParamsArray($_POST));
-            $sorties = $sortieRepository->findByFiltre($params);
+        $form = $this->createForm(FiltreType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FiltreFormModel $filtre */
+            $filtre = $form->getData();
+            $sorties = $sortieRepository->findByFiltre($filtre, $this->getUser()->getId());
         }
         else
         {
-            $sorties = $sortieRepository->findByFiltre();
+            $sorties = $sortieRepository->findAll();
         }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' =>  $sorties,
             'lesCampus' => $campusRepository->findAll(),
-            'params' => $params
+            'filtreForm' => $form->createView()
         ]);
     }
 
@@ -123,30 +126,17 @@ class SortieController extends AbstractController
     #[Route('/inscritionDesistementSortie/{id}', name: 'app_inscription_desistement_sortie', methods: ['GET'])]
     public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, Sortie $sortie)
     {
-        if ($sortie->getParticipant()->contains($this->getUser())) {
+        if ($sortie->getParticipant()->contains($this->getUser()) AND ($sortie->getEtat()->getLibelle() == "Ouverte" or $sortie->getEtat()->getLibelle() == "Clôturée") )
+        {
             $sortie->removeParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
         }
-        elseif( $sortie->getNbInscriptionMax() != count($sortie->getParticipant()) )
+        elseif( $sortie->getNbInscriptionMax() != count($sortie->getParticipant()) AND $sortie->getEtat()->getLibelle() == "Ouverte" )
         {
             $sortie->addParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function generateParamsArray($params)
-    {
-        $tempArr = array();
-        $keys = array_keys($params);
-        for($i=0; $i< count($keys); $i++)
-        {
-            if( !empty($params[$keys[$i]] ) )
-            {
-                $tempArr[$keys[$i]] = $params[$keys[$i]];
-            }
-        }
-        return $tempArr;
     }
 }
