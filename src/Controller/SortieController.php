@@ -23,23 +23,12 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
-       /* $params = array("user"=>$this->getUser()->getId());
-        if( !empty($_POST) )
-        {
-            $params = array_merge($params, $this->generateParamsArray($_POST));
-            $sorties = $sortieRepository->findByFiltre($params);
-        }
-        else
-        {
-            $sorties = $sortieRepository->findByFiltre();
-        }*/
-
         $form = $this->createForm(FiltreType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var FiltreFormModel $filtre */
             $filtre = $form->getData();
-            $sorties = $sortieRepository->findByFiltreTest($filtre, $this->getUser()->getId());
+            $sorties = $sortieRepository->findByFiltre($filtre, $this->getUser()->getId());
         }
         else
         {
@@ -149,19 +138,5 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function generateParamsArray($params)
-    {
-        $tempArr = array();
-        $keys = array_keys($params);
-        for($i=0; $i< count($keys); $i++)
-        {
-            if( !empty($params[$keys[$i]] ) )
-            {
-                $tempArr[$keys[$i]] = $params[$keys[$i]];
-            }
-        }
-        return $tempArr;
     }
 }
