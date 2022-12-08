@@ -2,10 +2,20 @@
 
 {% block title %}New Sortie{% endblock %}
 
-{% block body %}
-    <h1>Creer une Sortie</h1>
+{% block content %}
+    <div class="row mt-5 text-center">
+        <h1>Creer un Lieu</h1>
+    </div>
+
+    <p>
+        <a style="color: black" href="{{ path('app_sortie_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
+
+    </p>
+
+    <br>
 
     {{form_start(lieuForm)}}
+    {{ form_widget(lieuForm) }}
             <button class="btn btn-primary" type="submit">Ajouter</button>
     {{form_end(lieuForm)}}
 
