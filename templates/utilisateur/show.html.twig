@@ -3,37 +3,33 @@
 {% block title %}Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Utilisateur</h1>
+    <div class="row mt-5 text-center">
+        <h1>Profil</h1>
+    </div>
+    <br>
+    <p>
+        <a style="color: black" href="javascript:history.back()"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
 
-    <table class="table">
-        <tbody>
-        <img src="{{ asset('uploads/photos/' ~ utilisateur.photo) }}" alt="">
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ utilisateur.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ utilisateur.prenom }} {{ utilisateur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ utilisateur.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Mail</th>
-                <td>{{ utilisateur.mail }}</td>
-            </tr>
-            <tr>
-                <th>Campus</th>
-                <td>{{ utilisateur.campus.nom }}</td>
-            </tr>
-        </tbody>
-    </table>
+    </p>
+    <br>
+    <div class="card" style="width: 18rem;">
+        <img  src="{{ asset('uploads/photos/' ~ utilisateur.photo) }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ utilisateur.pseudo }}</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ utilisateur.prenom }} {{ utilisateur.nom }}</li>
+                <li class="list-group-item">{{ utilisateur.telephone }}</li>
+                <li class="list-group-item">{{ utilisateur.mail }}</li>
+                <li class="list-group-item">{{ utilisateur.telephone }}</li>
+                <li class="list-group-item">{{ utilisateur.campus.nom }}</li>
+            </ul>
+            <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-primary">Modifier</a>
 
-    <a href="javascript:history.back()">back to list</a>
+        </div>
+    </div>
 
-    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">Modifier</a>
+
+
 
 {#    {{ include('utilisateur/_delete_form.html.twig') }}#}
 {% endblock %}

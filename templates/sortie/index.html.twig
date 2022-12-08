@@ -8,6 +8,12 @@
     </div>
 
 
+<div>
+    <button type="button" class="btn btn-dark" href="{{ path('app_sortie_new') }}"> Creer une Sortie </button>
+</div>
+
+<br>
+
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
 Filtre        </button>
@@ -62,7 +68,10 @@ Filtre        </button>
             </form>
     </div>
 
-    <table class="table">
+        <br>
+        <br>
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Nom de la sortie</th>
@@ -107,7 +116,6 @@ Filtre        </button>
         </tbody>
     </table>
 
-    <a href="{{ path('app_sortie_new') }}">Create new</a>
 {% endblock %}
 
 {% block javascripts %}
