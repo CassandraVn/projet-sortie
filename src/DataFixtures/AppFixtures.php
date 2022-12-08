@@ -123,7 +123,7 @@ class AppFixtures extends Fixture
             $user->setPrenom($this->generator->firstName);
             $user->setNom($this->generator->lastName);
             $user->setPseudo($this->generator->userName);
-            $user->setRoles(["visiteur"]);
+            $user->setRoles([]);
             $user->setCampus($this->generator->randomElement($campus));
             $user->setTelephone($this->generator->phoneNumber);
             $user->setActif(true);
