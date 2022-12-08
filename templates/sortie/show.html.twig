@@ -2,52 +2,64 @@
 
 {% block title %}Sortie{% endblock %}
 
-{% block body %}
+{% block content %}
 
-    <h2>Detail Sortie</h2>
-    <h3>Nom sortie: {{ sortie.nom }}</h3>
-    <small>Date de sortie: {{  sortie.dateHeureDebut ? sortie.dateHeureDebut|date("d/m/Y  H:i:s") }}</small> <br>
-    <small>Duree: {{ sortie.duree }}</small> <br>
-    <small>Date limite d'inscription : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date("d/m/Y") : '' }}</small> <br>
-    <small>Nombre de place: {{  sortie.nbInscriptionMax }}</small> <br>
-    <small>Description et Info: {{ sortie.infosSortie }}</small> <br>
-    <small>Campus: {{  sortie.campus }}</small> <br>
-    <small>Lieu: {{ sortie.lieu }}</small> <br>
-    <small>Rue: {{  sortie.lieu.rue }}</small> <br>
-    <small>Code Postal: {{ sortie.lieu.ville.codePostal }}</small> <br>
-    <small>Latitude: {{  sortie.lieu.latitude }}</small> <br>
-    <small>Longitude: {{ sortie.lieu.longitude }}</small> <br>
+    <div class="row mt-5 text-center">
+        <h1>Detail sortie</h1>
+    </div>
 
+    <p>
+        <a style="color: black" href="{{ path('app_sortie_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Pseudo</th>
-                        <th scope="col">Nom</th>
-                        <th>Actions</th>
+    </p>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for utilisateur in utilisateurs %}
+    <div class="card text-center" style="width: 50rem;"  >
+        <div class="card-header">
+            {{ sortie.nom }}
+        </div>
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">{{  sortie.dateHeureDebut ? sortie.dateHeureDebut|date("d/m/Y  H:i:s") }}</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Duree: {{ sortie.duree }}</li>
+                <li class="list-group-item">Date limite d'inscription : {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date("d/m/Y") : '' }}</li>
+                <li class="list-group-item">Nombre de place: {{  sortie.nbInscriptionMax }}</li>
+                <li class="list-group-item">Campus: {{  sortie.campus }}</li>
+                <li class="list-group-item">Lieu: {{ sortie.lieu }}</li>
+                <li class="list-group-item">Rue: {{  sortie.lieu.rue }}</li>
+                <li class="list-group-item">Code Postal: {{ sortie.lieu.ville.codePostal }}</li>
+                <li class="list-group-item">Latitude: {{  sortie.lieu.latitude }}</li>
+                <li class="list-group-item">Longitude: {{ sortie.lieu.longitude }}</li>
+                <li class="list-group-item">Description et Info: {{ sortie.infosSortie }}</li>
+                <li class="list-group-item">    <table class="table table-dark">
+                        <thead>
                         <tr>
-                            <td>{{ utilisateur.pseudo }}</td>
-                            <td>{{ utilisateur.nom }} {{ utilisateur.prenom }}</td>
-                            <td>
-                                <a class="btn btn-outline-info" href="{{ path('app_utilisateur_profil',{id:utilisateur.id}) }}"><i class="fa-solid fa-eye"></i></a>
-                            </td>
-
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Nom</th>
+                            <th>Detail</th>
                         </tr>
-                    {% endfor %}
+                        </thead>
+                        <tbody>
+                        {% for utilisateur in utilisateurs %}
+                            <tr>
+                                <td>{{ utilisateur.pseudo }}</td>
+                                <td>{{ utilisateur.nom }} {{ utilisateur.prenom }}</td>
+                                <td>
+                                    <a href="{{ path('app_utilisateur_profil',{id:utilisateur.id}) }}"><i class="bi bi-eye-fill"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                     </tbody>
-                </table>
+                    </table></li>
+            </ul>
+            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+        </div>
+    </div>
 
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
 
-    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+{#    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>#}
 
 {#    {{ include('sortie/_delete_form.html.twig') }}#}
 {% endblock %}
