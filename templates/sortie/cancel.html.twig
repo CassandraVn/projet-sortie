@@ -3,7 +3,14 @@
 {% block title %}Edit Sortie{% endblock %}
 
 {% block body %}
-    <h1>Edit Sortie</h1>
+    <div class="row mt-5 text-center">
+        <h1>Annuler une Sortie</h1>
+    </div>
+
+    <p>
+        <a style="color: black" href="{{ path('app_sortie_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
+
+    </p>
 
     {{form_start(sortForm)}}
     <div class="row mt-5">
@@ -17,32 +24,32 @@
                 {{ form_row(sortForm.dateHeureDebut) }}
             </div>
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.duree) }}
             </div>
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.dateLimiteInscription) }}
             </div>
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.nbInscriptionMax) }}
             </div>
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.infosSortie) }}
             </div>
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.lieu) }}
             </div>
 
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.campus) }}
             </div>
 
-            <div class="input-field col s12 m6 l6">
+            <div class="row mt-7">
                 {{ form_row(sortForm.motifAnnulation) }}
             </div>
 
@@ -56,10 +63,4 @@
 
     </div>
 
-
-{#    {{ include('sortie/_form.html.twig', {'button_label': 'Annuler'}) }}#}
-
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
-
-{#    {{ include('sortie/_delete_form.html.twig') }}#}
 {% endblock %}
