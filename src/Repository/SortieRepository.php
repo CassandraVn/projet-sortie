@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\model\FiltreFormModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +39,60 @@ class SortieRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByFiltreTest(FiltreFormModel $filtre, int $userId)
+    {
+        $query =  $this->createQueryBuilder('s')
+            ->join("s.etat", "e")
+            ->where("e.libelle != 'Annulée'");
+
+        if( $filtre->getCampus() )
+        {
+            $query = $query->andWhere("s.campus = :campus");
+        }
+        if( $filtre->getNomSortie() )
+        {
+            $query = $query->andWhere("s.nom like :nomSortie");
+        }
+        if($filtre->getDateDepuis() and $filtre->getDateUntil() )
+        {
+            $query = $query->andWhere('s.dateHeureDebut BETWEEN :dateDepuis AND :dateUntil');
+        }
+        if( $filtre->getOrganisateur() )
+        {
+            $query = $query->andWhere("s.Organisateur = :user");
+        }
+        if(  $filtre->getInscrit() )
+        {
+            $query = $query->andWhere(":user MEMBER OF s.Participant");
+        }
+        if( $filtre->getPasInscrit() )
+        {
+            $query = $query->andWhere(":user NOT MEMBER OF s.Participant");
+        }
+        if( $filtre->getPassees() )
+        {
+            $query = $query->andWhere("e.libelle = 'Passée'");
+        }
+        if( $filtre->getCampus() )
+        {
+            $query = $query->setParameter('campus', $filtre->getCampus());
+        }
+        if( $filtre->getNomSortie() )
+        {
+            $query = $query->setParameter('nomSortie', $filtre->getNomSortie());
+        }
+        if($filtre->getDateDepuis() and $filtre->getDateUntil() )
+        {
+            $query = $query->setParameter('dateDepuis', $filtre->getDateDepuis() );
+            $query = $query->setParameter('dateUntil', $filtre->getDateUntil() );
+        }
+        if( $filtre->getPasInscrit() or $filtre->getInscrit() or  $filtre->getOrganisateur() )
+        {
+            $query = $query->setParameter('user', $userId);
+        }
+        return $query->getQuery()->getResult();
     }
 
     public function findByFiltre($params=false)

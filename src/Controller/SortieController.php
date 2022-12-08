@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Form\FiltreType;
+use App\Form\model\FiltreFormModel;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
@@ -19,9 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function index(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
-        $params = array("user"=>$this->getUser()->getId());
+       /* $params = array("user"=>$this->getUser()->getId());
         if( !empty($_POST) )
         {
             $params = array_merge($params, $this->generateParamsArray($_POST));
@@ -30,12 +32,24 @@ class SortieController extends AbstractController
         else
         {
             $sorties = $sortieRepository->findByFiltre();
+        }*/
+
+        $form = $this->createForm(FiltreType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FiltreFormModel $filtre */
+            $filtre = $form->getData();
+            $sorties = $sortieRepository->findByFiltreTest($filtre, $this->getUser()->getId());
+        }
+        else
+        {
+            $sorties = $sortieRepository->findAll();
         }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' =>  $sorties,
             'lesCampus' => $campusRepository->findAll(),
-            'params' => $params
+            'filtreForm' => $form->createView()
         ]);
     }
 
