@@ -74,7 +74,6 @@ class UtilisateurController extends AbstractController
                 } catch (FileException $e) {
 
                 }
-                dd($newFilename);
                 $this->getUser()->setPhoto($newFilename);
             }
 

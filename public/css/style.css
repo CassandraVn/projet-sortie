@@ -4,6 +4,12 @@ footer{
     bottom: 0;
     width: 100%;
     text-align: center;
-    background-color: #f8f9fa;
+    background-color: rgba(248, 249, 250, 0.02);
     color: #5e5e5e;
+    size: 5px;
 }
+
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
