@@ -52,7 +52,7 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.Organisateur', 'o')
             ->join('l.ville', 'v')
             ->leftJoin('s.Participant', 'p')
-            ->orderBy('s.etat', 'ASC')
+            ->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult(Query::HYDRATE_OBJECT);
     }
