@@ -11,12 +11,13 @@ class InscriptionSortieVoter extends Voter
 {
     public const INSCRIPTION = 'INSCRIPTION';
     public const DESISTEMENT = 'DESISTEMENT';
+    public const MODIFIER = 'MODIFIER';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::INSCRIPTION, self::DESISTEMENT])
+        return in_array($attribute, [self::INSCRIPTION, self::DESISTEMENT, self::MODIFIER])
             && $subject instanceof \App\Entity\Sortie;
     }
 
@@ -50,7 +51,23 @@ class InscriptionSortieVoter extends Voter
             case self::DESISTEMENT:
                 if(
                     $subject->getParticipant()->contains($user) and
-                    $subject->getEtat()->getLibelle() == "Ouverte"
+                    (
+                        $subject->getEtat()->getLibelle() == "Ouverte" or
+                        $subject->getEtat()->getLibelle() == "Clôturée"
+                    )
+                )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            case self::MODIFIER:
+                if(
+                    $subject->getOrganisateur() == $user or
+                    is_array($user->getRoles()) and in_array('ROLE_ADMIN', $user->getRoles()) or
+                    !is_array($user->getRoles()) and $user->getRoles() == 'ROLE_ADMIN'
                 )
                 {
                     return true;
