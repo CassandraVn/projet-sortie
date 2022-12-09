@@ -55,7 +55,7 @@
             {{form_end(sortForm)}}
 
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Test Lieu</button>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -64,10 +64,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-{#                            {{form_start(lieuForm)}}#}
-{#                            {{ form_widget(lieuForm) }}#}
-{#                            <button class="btn btn-primary" type="submit">Ajouter</button>#}
-{#                            {{form_end(lieuForm)}}#}
+                            {{ render(path('app_lieu_new')) }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
