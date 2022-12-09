@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,7 +23,7 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, ['label'=>'Pseudo'])
-            ->add('plainPassword', PasswordType::class, ['label'=>'Mot de passe', 'required'=>false, 'mapped'=>false])
+            ->add('plainPassword', RepeatedType::class, ['type'=>PasswordType::class,'label'=>'Mot de passe', 'required'=>false, 'mapped'=>false])
             ->add('confirm', PasswordType::class, ['label'=>'Confirmation', 'required'=>false, 'mapped'=>false])
             ->add('nom', TextType::class, ['label'=>'Nom'])
             ->add('prenom', TextType::class, ['label'=>'Prénom'])

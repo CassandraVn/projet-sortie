@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +53,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, UserPasswordHasherInterface $hasher, UtilisateurRepository $utilisateurRepository, SluggerInterface $slugger): Response
+    public function edit(Request $request, UserPasswordHasherInterface $hasher, UtilisateurRepository $utilisateurRepository, FileUploader $fileUploader): Response
 
     {
         $form = $this->createForm(UtilisateurType::class, $this->getUser());
@@ -62,19 +63,8 @@ class UtilisateurController extends AbstractController
 
             $photo = $form->get('photo')->getData();
             if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
-                try {
-                    $photo->move(
-                      $this->getParameter('photos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-
-                }
-                $this->getUser()->setPhoto($newFilename);
+                $photoFileName = $fileUploader->upload($photo);
+                $this->getUser()->setPhoto($photoFileName);
             }
 
             if (!empty($form->get('plainPassword')->getData())) {
