@@ -20,11 +20,11 @@ class FiltreType extends AbstractType
     {
         $builder
             ->add('campus', EntityType::class, [
-                'label'=>'Campus',
+                'label'=>' ',
                 'class' => Campus::class,
                 'choice_label' => 'nom'
             ])
-            ->add('nomSortie', TextType::class, ['label'=>"Nom de la sortie", 'required'=>false])
+            ->add('nomSortie', TextType::class, ['label'=>" ", 'required'=>false])
             ->add('dateDepuis', DateType::class, [
                 'label'=>"Entre",
                 'required'=>false,

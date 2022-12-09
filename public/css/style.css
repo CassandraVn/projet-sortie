@@ -1,35 +1,22 @@
 main{
     margin: 30px;
     min-height: 90vh;
-
 }
-
 .back{
     position: relative;
-    /*color: #ffffff;*/
-    /*background-color: #a90000;*/
     background-image:url(img/fondP.png);
     background-size: cover;
     background-repeat: no-repeat;
-    /*opacity: 0.6;*/
-    /*background-opacity: 0.6;*/
 }
-
-
 footer{
     text-align: center;
     background-color: rgba(248, 249, 250, 0.02);
     color: #5e5e5e;
     /*padding: 5px;*/
 }
-
 *{
-    /*font-family: 'Courier New', Courier, monospace;*/
     font-family: 'Century Gothic', monospace;
-
-
 }
-
 .card {
     display: block;
     margin-left: auto;
@@ -39,13 +26,9 @@ footer{
     -moz-box-shadow: 0px 0px 38px 15px rgba(88,0,219,0.47);
     box-shadow: 0px 0px 38px 15px rgba(88,0,219,0.47);
 }
-
 .bg-light {
-    /*--bs-bg-opacity: 1;*/
-    /*background-color: #f4efff;*/
     box-shadow: 10px 5px 5px #6a6a6a;
 }
-
 .fondTab {
     background-color: #f3f5ff;
     background: rgba( 255, 255, 255, 0.45 );
@@ -56,12 +39,9 @@ footer{
     -moz-box-shadow: 0px 0px 93px 26px rgba(46,56,255,0.97);
     box-shadow: 0px 0px 93px 26px rgba(46,56,255,0.97);
     border-radius: 30px;
-
 }
-
 .tabSort {
     background-color: #f3f5ff;
-    /*background-image:url(img/fondTab.png);*/
     background: rgba( 255, 255, 255, 0.45 );
     -webkit-box-shadow:0px 0px 39px 0px rgba(108,31,252,0.51);
     -moz-box-shadow: 0px 0px 39px 0px rgba(108,31,252,0.51);
