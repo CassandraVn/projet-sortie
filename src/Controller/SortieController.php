@@ -126,7 +126,7 @@ class SortieController extends AbstractController
     #[Route('/inscritionDesistementSortie/{id}', name: 'app_inscription_desistement_sortie', methods: ['GET'])]
     public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, Sortie $sortie)
     {
-        if ($sortie->getParticipant()->contains($this->getUser()) AND ($sortie->getEtat()->getLibelle() == "Ouverte" or $sortie->getEtat()->getLibelle() == "Clôturée") )
+        /*if ($sortie->getParticipant()->contains($this->getUser()) AND ($sortie->getEtat()->getLibelle() == "Ouverte" or $sortie->getEtat()->getLibelle() == "Clôturée") )
         {
             $sortie->removeParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
@@ -134,6 +134,16 @@ class SortieController extends AbstractController
         elseif( $sortie->getNbInscriptionMax() != count($sortie->getParticipant()) AND $sortie->getEtat()->getLibelle() == "Ouverte" )
         {
             $sortie->addParticipant($this->getUser());
+            $sortieRepository->save($sortie, true);
+        }*/
+        if( $this->isGranted('INSCRIPTION', $sortie) )
+        {
+            $sortie->addParticipant($this->getUser());
+            $sortieRepository->save($sortie, true);
+        }
+        elseif( $this->isGranted('DESISTEMENT', $sortie) )
+        {
+            $sortie->removeParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
         }
 
