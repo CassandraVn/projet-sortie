@@ -168,7 +168,7 @@ class SortieController extends AbstractController
 
             $serializer = new Serializer($normalizers, $encoders);
 
-            $fileSTR = file_get_contents( '.-/uploads/photos/'.$csv2->getCsv() );
+            $fileSTR = file_get_contents( './uploads/photos/'.$csv2->getCsv() );
             $users = $serializer->decode($fileSTR, "csv", [CsvEncoder::DELIMITER_KEY => ';']);
 
             foreach($users as $row)
