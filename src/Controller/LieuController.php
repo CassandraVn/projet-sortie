@@ -13,6 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/lieu')]
 class LieuController extends AbstractController
 {
+
+    
+
     #[Route('/')]
     public function index(): Response
     {
@@ -25,6 +28,7 @@ class LieuController extends AbstractController
     #[Route('/new', name: 'app_lieu_new', methods: ['GET', 'POST'])]
     public function new(Request $request, LieuRepository $lieuRepository): Response
     {
+
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
         $lieuForm->handleRequest($request);
