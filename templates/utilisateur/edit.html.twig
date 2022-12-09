@@ -13,7 +13,43 @@
 
     </p>
     <br>
-    {{ form(formUser) }}
+{#    {{ form(formUser) }}#}
+
+        {{form_start(formUser)}}
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+
+        <div class="row mt-7">
+            {{ form_row(formUser.pseudo) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.plainPassword) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.confirm) }}
+        </div>
+
+        <div class="row mt-7">
+            {{ form_row(formUser.nom) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.prenom) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.mail) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.campus) }}
+        </div>
+
+        <div class="row mt-7">
+            {{ form_row(formUser.photo) }}
+        </div>
+
+        <button class="btn btn-outline-primary" type="submit">Modifier</button>
+
+
+        {{form_end(formUser)}}
 
 {#    {{ include('utilisateur/_delete_form.html.twig') }}#}
     <script>
