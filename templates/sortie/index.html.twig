@@ -54,9 +54,9 @@ Filtre        </button>
                     <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}"><i class="bi bi-eye-fill"></i></a>
                     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}"><i class="bi bi-pencil-fill"></i></a>
                     {% if app.user %}
-                        {% if (app.user in sortie.Participant) and (sortie.etat.libelle == "Ouverte")  %}
+                        {% if is_granted('DESISTEMENT', sortie)  %}
                             <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}">Se désister</a>
-                        {% elseif (app.user not in sortie.Participant) and (sortie.etat.libelle == "Ouverte") and (sortie.Participant|length < sortie.nbInscriptionMax) and (sortie.dateLimiteInscription|date <= "now"|date) %}
+                        {% elseif is_granted('INSCRIPTION', sortie) %}
                             <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}">S'inscrire</a>
                         {% endif %}
                     {% endif %}
