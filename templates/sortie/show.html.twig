@@ -30,7 +30,9 @@
                 <li class="list-group-item">Latitude: {{  sortie.lieu.latitude }}</li>
                 <li class="list-group-item">Longitude: {{ sortie.lieu.longitude }}</li>
                 <li class="list-group-item">Description et Info: {{ sortie.infosSortie }}</li>
-                <li class="list-group-item">    <table class="table table-dark">
+                <li class="list-group-item">
+                    <div class="tabSort">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th scope="col">Pseudo</th>
@@ -51,9 +53,13 @@
                         </tbody>
                     </table>
                     </tbody>
-                    </table></li>
+                    </table>
+                    </div>
+
+                </li>
             </ul>
-            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary" style="--bs-btn-bg: #a86cff;--bs-btn-border-color: #a86cff;">
+                Modifier</a>
         </div>
     </div>
 

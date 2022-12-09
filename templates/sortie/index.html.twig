@@ -9,22 +9,26 @@
 
 
 <div style="float: right;">
-        <a class="btn btn-dark" style="color: white; text-decoration:none" href="{{ path('app_sortie_new') }}">Creer sortie</a>
+        <a class="btn btn-dark" style="color: #2c2c2c; text-decoration:none; --bs-btn-bg: #7bf; --bs-btn-border-color:#7bf;" href="{{ path('app_sortie_new') }}">Creer sortie</a>
 </div>
 
 <br>
 
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="dropdown" >
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-bg: #a8adff;
+--bs-btn-border-color: #a8adff;">
 Filtre        </button>
             <div class="dropdown-menu">
+                <form class="px-5 py-2">
                 {{ form(filtreForm) }}
+                </form>
     </div>
 
         <br>
         <br>
 
-    <table class="table table-striped">
+        <div class="fondTab">
+    <table class="table">
 
         <thead>
             <tr>
@@ -71,6 +75,7 @@ Filtre        </button>
         {% endfor %}
         </tbody>
     </table>
+        </div>
 
 {% endblock %}
 
