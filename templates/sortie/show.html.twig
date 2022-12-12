@@ -60,6 +60,9 @@
             </ul>
             <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary" style="--bs-btn-bg: #a86cff;--bs-btn-border-color: #a86cff;">
                 Modifier</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_sortie_cancel' , {'id': sortie.id}) }}" class="btn btn-alert">Annuler</a>
+            {% endif %}
         </div>
     </div>
 
