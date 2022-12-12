@@ -79,7 +79,6 @@ class SortieController extends AbstractController
 
     }
 
-
     private function renderLieuForm(){
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
@@ -108,8 +107,6 @@ class SortieController extends AbstractController
         ]);
 
     }
-
-
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(SortieRepository $sortieRepository, int $id): Response
