@@ -8,6 +8,7 @@ use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -40,7 +41,6 @@ class UtilisateurController extends AbstractController
 
             if ($photo) {
                 $photoFileName = $fileUploader->upload($photo);
-
                 $utilisateur->setPhoto($photoFileName);
             }
 
