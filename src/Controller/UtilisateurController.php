@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\UtilisateurAdminType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Service\FileUploader;
@@ -24,13 +25,25 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/new', name: 'app_utilisateur_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UtilisateurRepository $utilisateurRepository): Response
+    public function new(Request $request, UserPasswordHasherInterface $hasher, UtilisateurRepository $utilisateurRepository, FileUploader $fileUploader): Response
     {
         $utilisateur = new Utilisateur();
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurAdminType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $password = $hasher->hashPassword($this->getUser(), $form->get('plainPassword')->getData());
+            $utilisateur->setPassword($password);
+            $utilisateur->setActif(true);
+
+            $photo = $form->get('photo')->getData();
+
+            if ($photo) {
+                $photoFileName = $fileUploader->upload($photo);
+
+                $utilisateur->setPhoto($photoFileName);
+            }
+
             $utilisateurRepository->save($utilisateur, true);
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
