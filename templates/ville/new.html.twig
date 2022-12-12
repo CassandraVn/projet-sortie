@@ -3,9 +3,24 @@
 {% block title %}New Ville{% endblock %}
 
 {% block content %}
-    <h1>Create new Ville</h1>
+<div class="row mt-5 text-center">
+    <h1>Ajouter une ville</h1>
+</div>
 
-    {{ include('ville/_form.html.twig') }}
 
-    <a href="{{ path('app_ville_index') }}">back to list</a>
+{{form_start(form)}}
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+
+        <div class="row mt-7">
+            {{ form_row(form.nom) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(form.codePostal) }}
+        </div>
+
+        <button class="btn btn-outline-primary" type="submit">Ajouter</button>
+
+
+        {{form_end(form)}}
 {% endblock %}
