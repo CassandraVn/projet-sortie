@@ -14,7 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class LieuController extends AbstractController
 {
 
-    
+
+
 
     #[Route('/')]
     public function index(): Response
@@ -39,7 +40,6 @@ class LieuController extends AbstractController
             return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
         }
 
-//        return $this->render('lieu/new',["lieuForm"=>$lieuForm->createView()]);
             return $this->render('lieu/new.html.twig',["lieuForm"=>$lieuForm->createView()]);
 
     }
