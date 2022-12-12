@@ -18,11 +18,8 @@
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-bg: #a8adff;--bs-btn-border-color: #a8adff;">
 Filtre        </button>
             <div class="dropdown-menu  p-4">
-                <form class="px-5 py-2">
                     {{form_start(filtreForm)}}
                     <div class="mb-3">
-                        <div class="">
-
                             <div class="mb-3 mt-7">
                                 <label for="campus" class="form-label">Campus</label>
                                 {{ form_row(filtreForm.campus) }}
@@ -49,7 +46,6 @@ Filtre        </button>
                             </div>
                             {{form_end(filtreForm)}}
                             </div>
-                </form>
             </div>
     </div>
         <br>
