@@ -23,8 +23,14 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, ['label'=>'Pseudo'])
-            ->add('plainPassword', RepeatedType::class, ['type'=>PasswordType::class,'label'=>'Mot de passe', 'required'=>false, 'mapped'=>false])
-            ->add('confirm', PasswordType::class, ['label'=>'Confirmation', 'required'=>false, 'mapped'=>false])
+            ->add('plainPassword', RepeatedType::class, [
+                'type'=>PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent être identiques.',
+                'required'=>false,
+                'mapped'=> false,
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation']
+            ])
             ->add('nom', TextType::class, ['label'=>'Nom'])
             ->add('prenom', TextType::class, ['label'=>'Prénom'])
             ->add('telephone', TelType::class, ['label'=>'Téléphone'])
