@@ -21,6 +21,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,6 +87,7 @@ class SortieController extends AbstractController
         return $lieuForm->createView();
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/{id}/cancel', name: 'app_sortie_cancel', methods: ['GET', 'POST'])]
     public function cancel(Request $request, SortieRepository $sortieRepository, Sortie $sortie,  EtatRepository $etatRepo): Response
     {
