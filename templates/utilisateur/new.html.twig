@@ -1,11 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Utilisateur{% endblock %}
+{% block title %}Nouvel Utilisateur{% endblock %}
 
 {% block content %}
-    <h1>Create new Utilisateur</h1>
+    <h1>Ajouter un utilisateur</h1>
 
-    {{ include('utilisateur/_form.html.twig') }}
+{{form_start(formUser)}}
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+
+        <div class="row mt-7">
+            {{ form_row(formUser.pseudo) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.plainPassword.first) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.plainPassword.second) }}
+        </div>
+
+        <div class="row mt-7">
+            {{ form_row(formUser.nom) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.prenom) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.mail) }}
+        </div>
+        <div class="row mt-7">
+            {{ form_row(formUser.campus) }}
+        </div>
+
+        <div class="row mt-7">
+            {{ form_row(formUser.photo) }}
+        </div>
+
+        {{form_end(formUser)}}
 
     <a href="{{ path('app_utilisateur_index') }}">back to list</a>
 {% endblock %}

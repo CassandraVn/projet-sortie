@@ -7,12 +7,10 @@ use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
@@ -40,7 +38,7 @@ class UtilisateurController extends AbstractController
 
         return $this->renderForm('utilisateur/new.html.twig', [
             'utilisateur' => $utilisateur,
-            'form' => $form,
+            'formUser' => $form,
         ]);
     }
 
@@ -62,8 +60,10 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $photo = $form->get('photo')->getData();
+
             if ($photo) {
                 $photoFileName = $fileUploader->upload($photo);
+
                 $this->getUser()->setPhoto($photoFileName);
             }
 

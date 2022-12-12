@@ -2,13 +2,21 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Utilisateur;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -19,26 +27,38 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, ['label'=>'Pseudo'])
-            ->add('mail', EmailType::class, ['label'=>'Email'])
-
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
+            ->add('plainPassword', RepeatedType::class, [
+                'type'=>PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent être identiques.',
+                'required'=>true,
+                'mapped'=> false,
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation']
             ])
-        ;
+            ->add('nom', TextType::class, ['label'=>'Nom'])
+            ->add('prenom', TextType::class, ['label'=>'Prénom'])
+            ->add('telephone', TelType::class, ['label'=>'Téléphone'])
+            ->add('mail', EmailType::class, ['label'=>'Email'])
+            ->add('campus', EntityType::class, [
+                'label'=>'Campus',
+                'class' => Campus::class,
+                'choice_label' => 'nom'
+            ])
+            ->add('photo', FileType::class,
+                ['label'=>'Ma photo',
+                    'required'=>false,
+                    'mapped'=> false,
+                    'constraints'=>[
+                        new File([
+                            'mimeTypes' => ['image/jpeg', 'image/png'],
+                            'mimeTypesMessage' => 'Veuillez choisir une photo en format JPEG ou PNG.'
+                        ])
+                    ]])
+            ->add('ajout', SubmitType::class, [
+                'label'=>'Modifier',
+                'attr' => ['class' => 'btn btn-outline-primary btn-submit btn-form']
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
