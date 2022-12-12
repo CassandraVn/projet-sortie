@@ -58,6 +58,7 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepo): Response
     {
+
         $etat = $etatRepo-> findOneBy(['libelle'=> 'Créée']);
         $sortie = new Sortie();
         $sortie->setEtat($etat);
@@ -71,10 +72,20 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('sortie/new.html.twig',["sortForm"=>$sortForm->createView()]);
+        return $this->render('sortie/new.html.twig',[
+            "sortForm"=>$sortForm->createView(),
+            "lieuForm"=>$this->renderLieuForm()
+        ]);
 
     }
 
+
+    private function renderLieuForm(){
+        $lieu = new Lieu();
+        $lieuForm = $this->createForm(LieuType::class, $lieu);
+
+        return $lieuForm->createView();
+    }
 
     #[Route('/{id}/cancel', name: 'app_sortie_cancel', methods: ['GET', 'POST'])]
     public function cancel(Request $request, SortieRepository $sortieRepository, Sortie $sortie,  EtatRepository $etatRepo): Response
