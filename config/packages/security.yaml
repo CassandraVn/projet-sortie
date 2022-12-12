@@ -38,6 +38,7 @@ security:
          - { path:  ^/login, roles: PUBLIC_ACCESS}
          - { path: ^/utilisateur/new, roles: ROLE_ADMIN }
          - { path: ^//campus/new, roles: ROLE_ADMIN }
+         -  { path: ^//ville/new, roles: ROLE_ADMIN }
          - { path: ^/*, roles: ROLE_USER }
 
 when@test:
