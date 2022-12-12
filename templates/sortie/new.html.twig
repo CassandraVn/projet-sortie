@@ -57,7 +57,7 @@
     <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                {{form_start(lieuForm)}}
+                {{form_start(lieuForm, {'action': path('app_lieu_new')})}}
                 {{ form_widget(lieuForm) }}
                 <button class="btn btn-primary" type="submit">Ajouter</button>
                 {{form_end(lieuForm)}}
@@ -66,6 +66,35 @@
     </div>
 
 
+
+{% endblock %}
+
+{% block javascripts %}
+{#    <script>#}
+{#        $(document).ready(function(){#}
+{#            $("#lieuForm").submit(function(event){#}
+{#                submitForm();#}
+{#                return false;#}
+{#            });#}
+{#        });#}
+
+{#        function submitForm(){#}
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: "App\\Controller\\SortieController:renderLieuForm",#}
+{#                cache:false,#}
+{#                data: $('form#lieuForm').serialize(),#}
+{#                success: function(response){#}
+{#                    $("#lieu").html(response)#}
+{#                    $("#lieu-modal").modal('hide');#}
+{#                },#}
+{#                error: function(){#}
+{#                    alert("Error");#}
+{#                }#}
+{#            });#}
+{#        }#}
+
+{#    </script>#}
 
 {% endblock %}
 
