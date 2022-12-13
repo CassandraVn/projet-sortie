@@ -44,9 +44,9 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                         {% if utilisateur.actif %}
-                          <a href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}">Rendre inactif</a>
+                          <a  title="rendre inactif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}"><i class="bi bi-emoji-dizzy-fill"></i></a>
                         {% else %}
-                            <a href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}">Rendre actif</a>
+                            <a title="rendre actif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}"><i class="bi bi-emoji-sunglasses-fill"></i></a>
                         {% endif %}
                         {{ include('utilisateur/_delete_form.html.twig') }}
 
