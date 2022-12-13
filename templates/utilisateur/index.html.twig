@@ -39,24 +39,27 @@
                 <td>{{ utilisateur.actif ? 'Yes' : 'No' }}</td>
                 <td>{{ utilisateur.mail }}</td>
                 <td>
-                    <a href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}"><i class="bi bi-eye-fill"></i></a>
-                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}"><i class="bi bi-pencil-fill"></i></a>
+                    <a title="detail" href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}" style="color: #778eff"><i class="bi bi-eye-fill"></i></a>
+                    <a title="modifier" href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="color: #f89dea"><i class="bi bi-pencil-fill"></i></a>
 
                     {% if is_granted('ROLE_ADMIN') %}
                         {% if utilisateur.actif %}
-                          <a  title="rendre inactif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}"><i class="bi bi-emoji-dizzy-fill"></i></a>
+                          <a title="rendre inactif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}" style="color: #270560">
+                              <i class="bi bi-emoji-dizzy-fill"></i>
+                          </a>
                         {% else %}
-                            <a title="rendre actif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}"><i class="bi bi-emoji-sunglasses-fill"></i></a>
+                            <a title="rendre actif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}" style="color: #270560">
+                                <i class="bi bi-emoji-sunglasses-fill"></i>
+                            </a>
                         {% endif %}
-                        {{ include('utilisateur/_delete_form.html.twig') }}
-
-{#                        <a href="{{ path('app_utilisateur_delete' , {'id': utilisateur.id}) }}"><i class="bi bi-trash"></i></a>#}
+{#                        <a href="">  {{ include('utilisateur/_delete_form.html.twig') }}<i class="bi bi-trash"></i></a>#}
+                       <div style="float: right">  {{ include('utilisateur/_delete_form.html.twig') }}</div>
                     {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="11">Aucun résultat</td>
             </tr>
 
         {% endfor %}
