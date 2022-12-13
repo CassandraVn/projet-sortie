@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use App\Form\model\FiltreFormModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
@@ -82,11 +83,25 @@ class SortieRepository extends ServiceEntityRepository
             ->getResult(Query::HYDRATE_OBJECT);
     }
 
-    public function findByFiltre(FiltreFormModel $filtre, int $userId)
+    public function findByFiltre(FiltreFormModel $filtre, Utilisateur $user)
     {
         $query =  $this->createQueryBuilder('s')
-            ->join("s.etat", "e")
-            ->where("e.libelle != 'Annulée'");
+            ->select('s, e, l, c, o, v, p')
+            ->join('s.etat', 'e')
+            ->join('s.lieu', 'l')
+            ->join('s.campus', 'c')
+            ->join('s.Organisateur', 'o')
+            ->join('l.ville', 'v')
+            ->leftJoin('s.Participant', 'p');
+
+        if(
+            is_array($user->getRoles()) and !in_array('ROLE_ADMIN', $user->getRoles()) and
+            !is_array($user->getRoles()) and !$user->getRoles() == 'ROLE_ADMIN'
+        )
+        {
+            $query = $query->where("e.libelle != 'Annulée'");
+        }
+
 
         if( $filtre->getCampus() )
         {
@@ -131,7 +146,7 @@ class SortieRepository extends ServiceEntityRepository
         }
         if( $filtre->getPasInscrit() or $filtre->getInscrit() or  $filtre->getOrganisateur() )
         {
-            $query = $query->setParameter('user', $userId);
+            $query = $query->setParameter('user', $user->getId());
         }
         return $query->getQuery()->getResult();
     }
