@@ -103,4 +103,20 @@ class UtilisateurController extends AbstractController
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/actifInactif/{id}', name: 'app_utilisateur_actif_inactif', methods: ['GET'])]
+    public function setUserActifInactif(UtilisateurRepository $utilisateurRepository, Utilisateur $user)
+    {
+        if( $user->isActif() )
+        {
+            $user->setActif(false);
+        }
+        else
+        {
+            $user->setActif(true);
+        }
+        $utilisateurRepository->save($user, true);
+        return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
