@@ -23,7 +23,8 @@ class FiltreType extends AbstractType
                 'label'=>' ',
                 'class' => Campus::class,
                 'choice_label' => 'nom',
-                'placeholder' => 'Tous les campus'
+                'required'   => false,
+                'placeholder' => 'Tous les campus',
                 ])
             ->add('nomSortie', TextType::class, ['label'=>" ", 'required'=>false])
             ->add('dateDepuis', DateType::class, [
