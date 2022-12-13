@@ -6,11 +6,18 @@
     <div class="row mt-5 text-center">
         <h1>Profils</h1>
     </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div style="float: right;">
+            <a class="btn btn-dark" style="color: #2c2c2c; text-decoration:none; --bs-btn-bg: #7bf; --bs-btn-border-color:#7bf;" href="{{ path('app_utilisateur_new') }}">Ajouter un utilisateur</a>
+        </div>
+    {% endif %}
     <br>
     <br>
 
-<div class="fondTab">
 
+
+
+    <div class="fondTab">
 <table class="table">
         <thead>
             <tr>
@@ -24,6 +31,7 @@
         </thead>
         <tbody>
         {% for utilisateur in utilisateurs %}
+{#            {{ include('utilisateur/_delete_form.html.twig') }}#}
             <tr>
                 <td>{{ utilisateur.pseudo }}</td>
                 <td>{{ utilisateur.prenom }} {{ utilisateur.nom }}</td>
@@ -31,17 +39,34 @@
                 <td>{{ utilisateur.actif ? 'Yes' : 'No' }}</td>
                 <td>{{ utilisateur.mail }}</td>
                 <td>
-                    <a href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}"><i class="bi bi-eye-fill"></i></a>
-                    <a href="{{ path('app_utilisateur_edit') }}"><i class="bi bi-pencil-fill"></i></a>
+                    <a title="detail" href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}" style="color: #778eff"><i class="bi bi-eye-fill"></i></a>
+                    <a title="modifier" href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="color: #f89dea"><i class="bi bi-pencil-fill"></i></a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if utilisateur.actif %}
+                          <a title="rendre inactif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}" style="color: #270560">
+                              <i class="bi bi-emoji-dizzy-fill"></i>
+                          </a>
+                        {% else %}
+                            <a title="rendre actif" href="{{ path('app_utilisateur_actif_inactif', {'id': utilisateur.id}) }}" style="color: #270560">
+                                <i class="bi bi-emoji-sunglasses-fill"></i>
+                            </a>
+                        {% endif %}
+{#                        <a href="">  {{ include('utilisateur/_delete_form.html.twig') }}<i class="bi bi-trash"></i></a>#}
+                       <div style="float: right">  {{ include('utilisateur/_delete_form.html.twig') }}</div>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="11">Aucun résultat</td>
             </tr>
+
         {% endfor %}
         </tbody>
     </table>
 </div>
+
+
 
 {% endblock %}

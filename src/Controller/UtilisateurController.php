@@ -7,6 +7,7 @@ use App\Form\UtilisateurAdminType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Service\FileUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,7 @@ class UtilisateurController extends AbstractController
         return $this->renderForm('utilisateur/edit.html.twig', ['utilisateur' => $this->getUser(), 'formUser' => $form]);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/delete/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
     {
@@ -99,6 +101,22 @@ class UtilisateurController extends AbstractController
             $utilisateurRepository->remove($utilisateur, true);
         }
 
+        return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/actifInactif/{id}', name: 'app_utilisateur_actif_inactif', methods: ['GET'])]
+    public function setUserActifInactif(UtilisateurRepository $utilisateurRepository, Utilisateur $user)
+    {
+        if( $user->isActif() )
+        {
+            $user->setActif(false);
+        }
+        else
+        {
+            $user->setActif(true);
+        }
+        $utilisateurRepository->save($user, true);
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
 }

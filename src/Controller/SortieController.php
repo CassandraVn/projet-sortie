@@ -21,6 +21,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +42,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var FiltreFormModel $filtre */
             $filtre = $form->getData();
-            $sorties = $sortieRepository->findByFiltre($filtre, $this->getUser()->getId());
+            $sorties = $sortieRepository->findByFiltre($filtre, $this->getUser());
         }
         else
         {
@@ -54,6 +55,7 @@ class SortieController extends AbstractController
             'filtreForm' => $form->createView()
         ]);
     }
+
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepo): Response
@@ -79,7 +81,6 @@ class SortieController extends AbstractController
 
     }
 
-
     private function renderLieuForm(){
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
@@ -87,6 +88,7 @@ class SortieController extends AbstractController
         return $lieuForm->createView();
     }
 
+//    #[IsGranted("ROLE_ADMIN")]
     #[Route('/{id}/cancel', name: 'app_sortie_cancel', methods: ['GET', 'POST'])]
     public function cancel(Request $request, SortieRepository $sortieRepository, Sortie $sortie,  EtatRepository $etatRepo): Response
     {
@@ -108,8 +110,6 @@ class SortieController extends AbstractController
         ]);
 
     }
-
-
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(SortieRepository $sortieRepository, int $id): Response
@@ -146,6 +146,7 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+
 
     #[Route('/inscritionDesistementSortie/{id}', name: 'app_inscription_desistement_sortie', methods: ['GET'])]
     public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, Sortie $sortie)

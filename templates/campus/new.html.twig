@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Campus{% endblock %}
+
+{% block content %}
+
+    <div class="row mt-5 text-center">
+        <h1>Creer un Campus</h1>
+    </div>
+
+    {{form_start(form)}}
+    <div class="row mt-5">
+        <div class="col-6 offset-3">
+            <div class="row mt-7">
+                {{ form_row(form.nom) }}
+            </div>
+            <button class="btn btn-outline-primary" type="submit">Ajouter</button>
+        </div>
+    </div>
+    {{form_end(form)}}
+{% endblock %}

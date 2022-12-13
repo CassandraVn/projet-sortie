@@ -5,8 +5,13 @@
 {% block content %}
 <form method="post">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger" role="alert">
+            {{ error.message }}
+        </div>
     {% endif %}
+{#    {% if error %}#}
+{#        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+{#    {% endif %}#}
 
     {% if app.user %}
         <div class="mb-3">
