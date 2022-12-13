@@ -40,6 +40,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Gestion Administrateur
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item"  href="{{ path('app_utilisateur_index') }}">Liste des utilisateurs</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('app_utilisateur_new') }}">Ajout Utilisateur</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_campus_new') }}">Ajout Campus</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_ville_new') }}">Ajout Ville</a></li>
+                    </ul>
+                </li>
+                {% endif %}
             </ul>
         {% endif %}
     </nav>
