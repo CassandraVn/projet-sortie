@@ -73,7 +73,7 @@ Filtre        </button>
                 <td>{{ sortie.Participant|length }}/{{ sortie.nbInscriptionMax }}</td>
                 <td>{{ sortie.Etat.libelle }}</td>
                 <td>{% if app.user in sortie.Participant %} X {% endif %}</td>
-                <td><a href="{{ path('app_utilisateur_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>  </td>
+                <td><a href="{{ path('app_utilisateur_profil', {'id': sortie.organisateur.id}) }}" style="text-decoration: none; color: #270560;">{{ sortie.organisateur.pseudo }}</a>  </td>
                 <td>
                     <a title="detail" href="{{ path('app_sortie_show', {'id': sortie.id}) }}" style="color: #778eff"><i class="bi bi-eye-fill"></i></a>
                     {% if app.user %}
