@@ -13,7 +13,10 @@
     </p>
     <br>
     <div class="card" style="width: 25rem;">
-        <img  src="{{ asset('uploads/photos/' ~ utilisateur.photo) }}" class="card-img-top" alt="...">
+          {% if utilisateur.photo is defined %}
+        <img  src="{{ asset('uploads/photos/' ~ utilisateur.photo) }}" class="card-img-top" alt="">
+          {% endif %}
+        <img src="{{ asset('img/PR.jpg') }}" class="card-img-top" alt="">
         <div class="card-body">
             <h5 class="card-title">{{ utilisateur.pseudo }}</h5>
             <ul class="list-group list-group-flush">
