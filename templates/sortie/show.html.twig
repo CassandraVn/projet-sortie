@@ -63,7 +63,7 @@
                     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary" style="--bs-btn-bg: #a86cff;--bs-btn-border-color: #a86cff;">
                         Modifier</a>
                 {% endif %}
-                {% if is_granted('MODIFIER', sortie)  %}
+                {% if is_granted('ANNULER', sortie)  %}
                     <a href="{{ path('app_sortie_cancel' , {'id': sortie.id}) }}" class="btn btn-alert">Annuler</a>
 
                 {% endif %}
