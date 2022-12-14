@@ -149,16 +149,28 @@ class SortieController extends AbstractController
 
 
     #[Route('/inscritionDesistementSortie/{id}', name: 'app_inscription_desistement_sortie', methods: ['GET'])]
-    public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, Sortie $sortie)
+    public function inscritionDesistementSortie(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository , Sortie $sortie)
     {
         if( $this->isGranted('INSCRIPTION', $sortie) )
         {
             $sortie->addParticipant($this->getUser());
+            if( $sortie->getNbInscriptionMax() == $sortie->getParticipant()->count() )
+            {
+                $sortie->setEtat(
+                    $etatRepository->findOneBy(['libelle'=>'Clôturée'])
+                );
+            }
             $sortieRepository->save($sortie, true);
         }
         elseif( $this->isGranted('DESISTEMENT', $sortie) )
         {
             $sortie->removeParticipant($this->getUser());
+            if( $sortie->getEtat()->getLibelle() == 'Clôturée' and $sortie->getDateLimiteInscription() > new \DateTime())
+            {
+                $sortie->setEtat(
+                    $etatRepository->findOneBy(['libelle'=>'Ouverte'])
+                );
+            }
             $sortieRepository->save($sortie, true);
         }
 
