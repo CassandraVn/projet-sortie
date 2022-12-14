@@ -44,16 +44,25 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllSorties() {
-        return $this->createQueryBuilder('s')
+    public function findAllSorties(Utilisateur $user) {
+        $query = $this->createQueryBuilder('s')
             ->select('s, e, l, c, o, v, p')
             ->join('s.etat', 'e')
             ->join('s.lieu', 'l')
             ->join('s.campus', 'c')
             ->join('s.Organisateur', 'o')
             ->join('l.ville', 'v')
-            ->leftJoin('s.Participant', 'p')
-            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->leftJoin('s.Participant', 'p');
+
+        if(
+            is_array($user->getRoles()) and !in_array('ROLE_ADMIN', $user->getRoles()) or
+            !is_array($user->getRoles()) and !$user->getRoles() == 'ROLE_ADMIN'
+        )
+        {
+            $query = $query->where("e.libelle != 'Annulée' and e.libelle != 'Historisée'");
+        }
+
+        return $query->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult(Query::HYDRATE_OBJECT);
     }
@@ -95,11 +104,12 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('s.Participant', 'p');
 
         if(
-            is_array($user->getRoles()) and !in_array('ROLE_ADMIN', $user->getRoles()) and
+            is_array($user->getRoles()) and !in_array('ROLE_ADMIN', $user->getRoles()) or
             !is_array($user->getRoles()) and !$user->getRoles() == 'ROLE_ADMIN'
         )
         {
-            $query = $query->where("e.libelle != 'Annulée'");
+            $query = $query->andWhere("e.libelle != 'Annulée'");
+            $query = $query->andWhere("e.libelle != 'Historisée'");
         }
 
 
