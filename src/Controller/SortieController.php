@@ -60,7 +60,6 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepo): Response
     {
-
         $etat = $etatRepo-> findOneBy(['libelle'=> 'Créée']);
         $sortie = new Sortie();
         $sortie->setEtat($etat);

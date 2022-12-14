@@ -28,7 +28,9 @@
                 <li class="list-group-item">{{ utilisateur.telephone }}</li>
                 <li class="list-group-item">{{ utilisateur.campus.nom }}</li>
             </ul>
-            <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-primary" style="--bs-btn-bg: #8581ff;--bs-btn-border-color: #8581ff;">Modifier</a>
+            {% if app.user.id == utilisateur.id %}
+                <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-primary" style="--bs-btn-bg: #8581ff;--bs-btn-border-color: #8581ff;">Modifier</a>
+            {% endif %}
 
         </div>
     </div>
