@@ -72,7 +72,8 @@ class InscriptionSortieVoter extends Voter
                     and
                     (
                         $subject->getEtat()->getLibelle() == "Créée" or
-                        $subject->getEtat()->getLibelle() == "Ouverte"
+                        $subject->getEtat()->getLibelle() == "Ouverte" or
+                        $subject->getEtat()->getLibelle() == "Clôturée"
                     )
                 )
                 {

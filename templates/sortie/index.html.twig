@@ -68,12 +68,17 @@ Filtre        </button>
             <tr>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.duree }} <span class="float-end">min</span></td>
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y') : '' }}</td>
                 <td>{{ sortie.Participant|length }}/{{ sortie.nbInscriptionMax }}</td>
                 <td>{{ sortie.Etat.libelle }}</td>
                 <td>{% if app.user in sortie.Participant %} X {% endif %}</td>
-                <td><a href="{{ path('app_utilisateur_profil', {'id': sortie.organisateur.id}) }}" style="text-decoration: none; color: #270560;">{{ sortie.organisateur.pseudo }}</a>  </td>
+                <td><a href="{{ path('app_utilisateur_profil', {'id': sortie.organisateur.id}) }}" style="text-decoration: none; color: #270560;">
+                     {% if sortie.organisateur.photo is not null %}
+                         <img src="{{ asset('uploads/photos/' ~ sortie.organisateur.photo) }}" class="rounded-circle" alt="Cinque Terre" width="5%" height="5%">
+                     {% endif %}
+                        {{ sortie.organisateur.pseudo }}</a>
+                </td>
                 <td>
                     <a title="detail" href="{{ path('app_sortie_show', {'id': sortie.id}) }}" style="color: #778eff"><i class="bi bi-eye-fill"></i></a>
                     {% if app.user %}
