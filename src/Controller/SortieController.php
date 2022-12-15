@@ -64,6 +64,7 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $sortie->setEtat($etat);
         $sortie->setOrganisateur($this->getUser());
+        $sortie->getParticipant()->add($this->getUser());
         $sortForm = $this->createForm(SortieType::class, $sortie);
         $sortForm->handleRequest($request);
 
@@ -144,6 +145,41 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/{id}/ouvrire', name: 'app_sortie_ouvrir', methods: ['GET'])]
+    public function ouvrirSortie(SortieRepository $sortieRepository, EtatRepository $etatRepository, Sortie $sortie)
+    {
+        if( $this->getUser() != $sortie->getOrganisateur() )
+        {
+            return $this->redirectToRoute('app_sortie_index');
+        }
+        if( !($sortie->getDateLimiteInscription() > new \DateTime()) )
+        {
+            $this->addFlash("message","La date limite d'inscription doit être supérieure à la date du jour");
+        }
+        elseif( !($sortie->getDateLimiteInscription() < $sortie->getDateHeureDebut()) )
+        {
+            $this->addFlash("message","La date limite d'inscription doit être inférieure à la date de l'évenement");
+        }
+        elseif( !($sortie->getNbInscriptionMax() > 1) )
+        {
+            $this->addFlash("message","Le nombre d'inscription max doit être supérieure à 1");
+        }
+        elseif( !($sortie->getDuree() > 15) )
+        {
+            $this->addFlash("message","La durée doit être supérieure à 15min");
+        }
+        else
+        {
+            $sortie->setEtat(
+                $etatRepository->findOneBy(['libelle'=>'Ouverte'])
+            );
+            $sortieRepository->save($sortie, true);
+            return $this->redirectToRoute('app_sortie_index');
+        }
+        return $this->redirectToRoute('app_sortie_edit',['id'=>$sortie->getId()]);
     }
 
 

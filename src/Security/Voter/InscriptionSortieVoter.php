@@ -13,12 +13,13 @@ class InscriptionSortieVoter extends Voter
     public const DESISTEMENT = 'DESISTEMENT';
     public const MODIFIER = 'MODIFIER';
     public const ANNULER = 'ANNULER';
+    public const OUVRIR = 'OUVRIR';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::INSCRIPTION, self::DESISTEMENT, self::MODIFIER, self::ANNULER])
+        return in_array($attribute, [self::INSCRIPTION, self::DESISTEMENT, self::MODIFIER, self::ANNULER, self::OUVRIR])
             && $subject instanceof \App\Entity\Sortie;
     }
 
@@ -71,9 +72,9 @@ class InscriptionSortieVoter extends Voter
                     !is_array($user->getRoles()) and $user->getRoles() == 'ROLE_ADMIN')
                     and
                     (
-                        $subject->getEtat()->getLibelle() == "Créée" or
+                        $subject->getEtat()->getLibelle() == "Créée" /*or
                         $subject->getEtat()->getLibelle() == "Ouverte" or
-                        $subject->getEtat()->getLibelle() == "Clôturée"
+                        $subject->getEtat()->getLibelle() == "Clôturée"*/
                     )
                 )
                 {
@@ -94,6 +95,18 @@ class InscriptionSortieVoter extends Voter
                         $subject->getEtat()->getLibelle() == "Ouverte" or
                         $subject->getEtat()->getLibelle() == "Clôturée"
                     )
+                )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            case self::OUVRIR:
+                if(
+                    $subject->getOrganisateur() == $user and
+                    $subject->getEtat()->getLibelle() == "Créée"
                 )
                 {
                     return true;

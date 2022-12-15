@@ -3,8 +3,11 @@
 {% block title %}Ville index{% endblock %}
 
 {% block content %}
-    <h1>Ville index</h1>
+    <div class="row mt-5 mb-5 text-center">
+        <h1>Ville</h1>
+    </div>
 
+<div class="fondTab">
     <table class="table">
         <thead>
             <tr>
@@ -21,8 +24,7 @@
                 <td>{{ ville.nom }}</td>
                 <td>{{ ville.codePostal }}</td>
                 <td>
-                    <a href="{{ path('app_ville_show', {'id': ville.id}) }}">show</a>
-                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">edit</a>
+                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}"><i class="bi bi-pencil-fill"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +34,7 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
 
     <a href="{{ path('app_ville_new') }}">Create new</a>
 {% endblock %}

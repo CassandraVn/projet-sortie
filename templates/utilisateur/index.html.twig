@@ -40,7 +40,7 @@
                 <td>{{ utilisateur.mail }}</td>
                 <td>
                     <a title="detail" href="{{ path('app_utilisateur_profil', {'id': utilisateur.id}) }}" style="color: #778eff"><i class="bi bi-eye-fill"></i></a>
-                    <a title="modifier" href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="color: #f89dea"><i class="bi bi-pencil-fill"></i></a>
+                   <!-- <a title="modifier" href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="color: #f89dea"><i class="bi bi-pencil-fill"></i></a>-->
 
                     {% if is_granted('ROLE_ADMIN') %}
                         {% if utilisateur.actif %}

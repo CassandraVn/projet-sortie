@@ -79,13 +79,13 @@ Filtre        </button>
                 <td>{{ sortie.Participant|length }}/{{ sortie.nbInscriptionMax }}</td>
                 <td>{{ sortie.Etat.libelle }}</td>
                 <td>{% if app.user in sortie.Participant %} X {% endif %}</td>
-                <td><a href="{{ path('app_utilisateur_profil', {'id': sortie.organisateur.id}) }}" style="text-decoration: none; color: #270560;">
+                <td style="max-width: 150px"><a href="{{ path('app_utilisateur_profil', {'id': sortie.organisateur.id}) }}" style="text-decoration: none; color: #270560;">
                         {% if sortie.organisateur.photo is not null %}
-                            <img src="{{ asset('uploads/photos/' ~ sortie.organisateur.photo) }}" class="rounded-circle" alt="Photo de profil" width="5%"/>
+                            <img src="{{ asset('uploads/photos/' ~ sortie.organisateur.photo) }}" class="rounded-circle" alt="Photo de profil" width="15%"/>
                         {% else %}
-                            <img src="{{ asset('img/PR.png') }}" class="rounded-circle" alt="Photo de profil" width="5%"/>
+                            <img src="{{ asset('img/PR.png') }}" class="rounded-circle" alt="Photo de profil" width="15%"/>
                         {% endif %}
-                        {{ sortie.organisateur.pseudo }}</a>
+                    {{ sortie.organisateur.pseudo }}</a>
                 </td>
                 <td>
                     <a title="detail" href="{{ path('app_sortie_show', {'id': sortie.id}) }}" style="color: #778eff"><i class="bi bi-eye-fill"></i></a>
@@ -94,9 +94,12 @@ Filtre        </button>
                              <a title="modifier" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" style="color: #f89dea"><i class="bi bi-pencil-fill"></i></a>
                         {% endif %}
                         {% if is_granted('DESISTEMENT', sortie)  %}
-                            <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}"><i class="bi bi-person-fill-dash" title="Se désister"></i></a>
+                            <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}"><i class="bi bi-dash-circle-fill" title="Se désister"></i></a>
                         {% elseif is_granted('INSCRIPTION', sortie) %}
                             <a href="{{ path('app_inscription_desistement_sortie', {'id': sortie.id}) }}"><i class="bi bi-plus-circle-fill" title="S'inscrire"></i></a>
+                        {% endif %}
+                        {% if is_granted('OUVRIR', sortie)  %}
+                            <a class="btn btn-outline-primary" href="{{ path('app_sortie_ouvrir', {'id': sortie.id}) }}">Ouvrir</a>
                         {% endif %}
                     {% endif %}
                 </td>

@@ -3,8 +3,11 @@
 {% block title %}Campus index{% endblock %}
 
 {% block content %}
-    <h1>Campus index</h1>
+    <div class="row mt-5 mb-5 text-center">
+        <h1>Campus</h1>
+    </div>
 
+<div class="fondTab">
     <table class="table">
         <thead>
             <tr>
@@ -19,7 +22,6 @@
                 <td>{{ campus.id }}</td>
                 <td>{{ campus.nom }}</td>
                 <td>
-                    <a href="{{ path('app_campus_show', {'id': campus.id}) }}">show</a>
                     <a href="{{ path('app_campus_edit', {'id': campus.id}) }}">edit</a>
                 </td>
             </tr>
@@ -30,6 +32,7 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
 
     <a href="{{ path('app_campus_new') }}">Create new</a>
 {% endblock %}

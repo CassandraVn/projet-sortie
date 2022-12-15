@@ -7,15 +7,24 @@
         <h1>Modifier une Sortie</h1>
     </div>
 
-    <p>
-        <a style="color: black" href="{{ path('app_sortie_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
 
-    </p>
 
 
     {{form_start(sortForm)}}
     <div class="row mt-5">
         <div class="col-6 offset-3">
+            <p>
+                <a style="color: black" href="{{ path('app_sortie_index') }}"><i class="bi bi-arrow-left-circle"></i> Retour à la liste</a>
+
+            </p>
+
+                {% for label,messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="row mt-4 alert alert-danger">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
 
             <div class="row mt-7">
                 {{ form_row(sortForm.nom) }}
