@@ -37,9 +37,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_utilisateur_profil', {'id': app.user.id}) }}">Mon profil</a>
                 </li>
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>#}
-{#                </li>#}
                 {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,19 +48,19 @@
                         <li><a class="dropdown-item"  href="{{ path('app_ville_index') }}">Liste des Villes</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ path('app_utilisateur_new') }}">Ajout Utilisateur</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_import_csv') }}">Ajout Utilisateurs par CSV</a></li>
                         <li><a class="dropdown-item" href="{{ path('app_campus_new') }}">Ajout Campus</a></li>
                         <li><a class="dropdown-item" href="{{ path('app_ville_new') }}">Ajout Ville</a></li>
                     </ul>
                 </li>
                 {% endif %}
             </ul>
-
-                        <span class="container justify-content-end">
-                            <a class="nav-link me-2" href="{{ path('app_logout') }}" >Se déconnecter</a>
-                            {% if app.user %}
-                                <p>{{ app.user.pseudo }}<br>{{ "now"|date("d/m/Y") }}</p>
-                            {% endif %}
-                        </span>
+            <span class="container justify-content-end">
+                <a class="nav-link me-4" href="{{ path('app_logout') }}" >Se déconnecter</a>
+                {% if app.user %}
+                    <p>{{ app.user.pseudo }}<br>{{ "now"|date("d/m/Y") }}</p>
+                {% endif %}
+            </span>
         {% endif %}
 
     </nav>

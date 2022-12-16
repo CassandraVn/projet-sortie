@@ -42,7 +42,6 @@ class UtilisateurAuthentificateurAuthenticator extends AbstractLoginFormAuthenti
             throw new AuthenticationException('Utilisateur inactif');
         }
 
-
         return new Passport(
             new UserBadge($pseudo),
             new PasswordCredentials($request->request->get('password', '')),

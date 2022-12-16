@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\ImportCsvType;
+use App\Form\model\ImportCsvFormModel;
 use App\Form\UtilisateurAdminType;
 use App\Form\UtilisateurType;
+use App\Repository\CampusRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,6 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
@@ -118,5 +125,66 @@ class UtilisateurController extends AbstractController
         }
         $utilisateurRepository->save($user, true);
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/importCsv/importCsv', name: 'app_import_csv', methods: ['GET', 'POST'])]
+    public function importUserCsv(Request $request, CampusRepository $campusRepository, UtilisateurRepository $utilisateurRepository, UserPasswordHasherInterface $hasher, FileUploader $fileUploader, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(ImportCsvType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var ImportCsvFormModel $csv */
+            $csv = $form->get('csv')->getData();
+            if ($csv) {
+                $photoFileName = $fileUploader->upload($csv);
+                $csv2 = new ImportCsvFormModel();
+                $csv2->setCsv($photoFileName);
+            }
+            $normalizers = [new ObjectNormalizer()];
+            $encoders = [new CsvEncoder()];
+
+            $serializer = new Serializer($normalizers, $encoders);
+
+            $fileSTR = file_get_contents( './uploads/photos/'.$csv2->getCsv() );
+            $users = $serializer->decode($fileSTR, "csv", [CsvEncoder::DELIMITER_KEY => ';']);
+
+            foreach($users as $row)
+            {
+                $user = $utilisateurRepository->findOneBy(["mail"=>$row["mail"]]);
+                if(!$user)
+                {
+                    $user = new Utilisateur();
+                    $password = $hasher->hashPassword($user, "1234");
+
+                    $user->setPseudo( $this->generateRandomString() )
+                        ->setPrenom($row['prenom'])
+                        ->setNom($row['nom'])
+                        ->setMail($row['mail'])
+                        ->setTelephone($row['telephone'])
+                        ->setActif(true)
+                        ->setCampus($campusRepository->findOneBy(['nom'=>'Nicolas']))
+                        ->setPassword($password);
+                    $em->persist($user);
+                }
+            }
+            $em->flush();
+            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('sortie/importCsv.html.twig', [
+            'csvForm' => $form->createView()
+        ]);
+    }
+
+    function generateRandomString()
+    {
+        $length = random_int(8, 16);
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
